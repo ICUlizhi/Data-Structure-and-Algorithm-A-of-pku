@@ -38,7 +38,7 @@ $$\sum_{k=1}^{n} \frac{1}{k} = \Theta(\log n)$$
 (3)
 记 $f(x)=[\frac{n}{2}]$,  则有,
 $$T(n)=T(f^{\lceil\log_2 n\rceil}(n))+\lceil\log_2 n\rceil$$
-注意到 $f(x)=[\frac{n}{2}]\leq n/2$, 因此有 $f^{\lceil\log_2 n\rceil}(n)\leq n(1/2)^{\lceil\log_2 n\rceil}\leq n(1/2)^{\log_2 n}=1$, 由于$f^{\lceil\log_2 n\rceil}(n) \in \Z_+ $, 因此 $f^{\lceil\log_2 n\rceil}(n)=0,1$
+注意到 $f(x)=[\frac{n}{2}]\leq n/2$, 因此有 $f^{\lceil\log_2 n\rceil}(n)\leq n(1/2)^{\lceil\log_2 n\rceil}\leq n(1/2)^{\log_2 n}=1$, 由于 $f^{\lceil\log_2 n\rceil}(n) \in \Z_+ $, 因此 $f^{\lceil\log_2 n\rceil}(n)=0,1$
 规定 $T(0)=0$, 不影响 $T(n)$ 条件的成立.从而,
 $$T(n)\leq T(1)+\lceil\log_2 n\rceil = o(\log n)$$
 
