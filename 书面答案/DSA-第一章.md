@@ -22,30 +22,18 @@ $$T(n)+1=3(T(n-1)+1)=3^{n-1}(T(1)+1)=2\cdot 3^{n-1}\Rightarrow T(n)=\Theta(3^n)$
 (2)
 - 上界
 由于
-$$
-\sum_{k=1}^{n} \frac{1}{k} \leq 1 + \int_1^n \frac{1}{x} dx = 1 + \log n
-$$
+$$\sum_{k=1}^{n} \frac{1}{k} \leq 1 + \int_1^n \frac{1}{x} dx = 1 + \log n$$
 因此
-$$
-\sum_{k=1}^{n} \frac{1}{k} = O(\log n)
-$$
+$$\sum_{k=1}^{n} \frac{1}{k} = O(\log n)$$
 - 下界
 由于
-$$
-\int_1^{n+1} \frac{1}{x} dx = \log(n+1)
-$$
+$$\int_1^{n+1} \frac{1}{x} dx = \log(n+1)$$
 由于 $$ \frac{1}{k} $$ 是递减的，我们有：
-$$
-\sum_{k=1}^{n} \frac{1}{k} \geq \int_1^n \frac{1}{x} dx = \log n
-$$
+$$\sum_{k=1}^{n} \frac{1}{k} \geq \int_1^n \frac{1}{x} dx = \log n$$
 因此：
-$$
-\sum_{k=1}^{n} \frac{1}{k} = \Omega(\log n)
-$$
+$$\sum_{k=1}^{n} \frac{1}{k} = \Omega(\log n)$$
 联立上下界可知
-$$
-\sum_{k=1}^{n} \frac{1}{k} = \Theta(\log n)
-$$
+$$\sum_{k=1}^{n} \frac{1}{k} = \Theta(\log n)$$
 
 (3)
 记 $f(x)=[\frac{n}{2}]$,  则有,
