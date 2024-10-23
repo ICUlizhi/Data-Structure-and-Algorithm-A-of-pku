@@ -1,9 +1,9 @@
 ## 2024/10/23
 - oj : 5-7
 - 书面 5
-欠账: 书面6,笔记6.正在写
-- 树的绘图我用的python的graphviz库,可以看我的[参考代码](https://github.com/ICUlizhi/game-theroy-of-pku-gg-and-nsd/blob/main/hj2024/answer/images/graph-generator.ipynb) 
+- 应群u要求开源, 树的绘图我用的python的graphviz库,可以看我的[参考代码](https://github.com/ICUlizhi/game-theroy-of-pku-gg-and-nsd/blob/main/hj2024/answer/images/graph-generator.ipynb) 
 
+欠账: 书面6,笔记6. 正在写
 ## 2024/10/22
 前段时间有点忙,现在回来补天了×
 - 笔记 5-二叉树
