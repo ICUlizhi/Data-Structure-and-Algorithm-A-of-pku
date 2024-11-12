@@ -250,3 +250,17 @@ cout << s.rfind('i') << endl;            //结果为18，返回的是从末尾�
 
 # 2 c++
 ## 2.1 输入
+```
+# 输入字符串
+cin >> str;
+getline (cin, str);
+cin.getline(str, 100);
+ch = cin.get();
+scanf("%99s", str);
+
+stringstream ss(input);
+string word;
+while (ss >> word) {  // 分隔并输出每个单词
+    cout << word << endl;
+}
+```
