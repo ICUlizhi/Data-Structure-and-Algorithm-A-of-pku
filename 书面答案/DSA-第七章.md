@@ -28,6 +28,8 @@ $(E,F),(D,E),(B,E),(A,B),(C,E)$
 (3)
 如果不唯一, 假设 $T_1$ 和 $T_2$ 都是最小生成树. 假设 $e = \underset{e_i\in T_1\cup T_2, e_i\notin T_1\cap T_2}{\arg\min} \; w(e_i)$. 
 
-不妨设 $e\in T_1, e\notin T_2$, 将 $e$ 添加到 $T_2$ 则后者成环, 注意到这个环不可能在 $T_1$ 中完整出现, 因此存在 $e'\in T_2\setminus T_1$, $e'$ 在 $e$ 引起的这个环上. 
+不妨设 $e\in T_1, e\notin T_2$, 将 $e$ 添加到 $T_2$ 则后者成环, 注意到这个环不可能在 $T_1$ 中完整出现, 因为 $T_1$ 无环.
 
-此时, $T_1\cup \{e'\}\setminus\{e\}, T_2\cup \{e\}\setminus\{e'\}$ 都是生成树, 注意到 $T_1$ 和 $T_2$ 是最小生成树, 因此 $w(e')-w(e)\ge 0,w(e)-w(e')\ge 0$, 从而 $w(e)=w(e')$. 这与假设中的边权值互不相同矛盾. 证毕
+对 $\forall e'\in T_2\setminus T_1$, $e'$ 在 $e$ 引起的这个环上. 此时 $T_2\cup \{e\}\setminus\{e'\}$ 是生成树, 又因为 $T_2$ 是最小生成树, 因此 $w(e)\ge w(e')$, 由假设边权值不等, 有 $w(e)>w(e')$
+
+由于 $e$ 是 $(T_1\cup T_2)\setminus (T_1\cap T_2)$ 权最小的元素, 因此 $e'\notin (T_1\cup T_2)\setminus (T_1\cap T_2)$, 从而 $e'\in T_1\cap T_2$. 对环上的任意一边 $e'$ 成立, 这导致该环出现在 $T_1$ 中, 矛盾.
