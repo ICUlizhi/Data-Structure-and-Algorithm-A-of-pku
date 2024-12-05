@@ -1,3 +1,9 @@
+## 2024/12/5
+
+- 20、22、23 年普通班上机题题解+代码
+
+by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
+
 ## 2024/12/2
 
 - mooc 12
