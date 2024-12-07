@@ -26,44 +26,45 @@ Node* search(Node* head, Node*& p, int K) {
 $$ASP_{succ} = \frac{1}{n}\sum_{i\in [n]}\frac{1}{n}\sum_{j\in [n]}|i-j| = \frac{n}{3}-\frac{1}{3n}$$
 
 ### 2.
-1. **排序集合：**
-   - 首先对集合 \( S_1 \) 和 \( S_2 \) 排序，时间复杂度分别为 \( O(N \log N) \) 和 \( O(M \log M) \)。
-   - 排序的目的是便于在交集中快速查找公共元素。
 
-2. **双指针遍历：**
-   - 初始化两个指针 \( i \) 和 \( j \)，分别指向 \( S_1 \) 和 \( S_2 \) 的起始位置。
-   - 根据以下规则移动指针：
-     - 如果 \( S_1[i] = S_2[j] \)，将该元素加入交集，两个指针同时向前移动。
-     - 如果 \( S_1[i] < S_2[j] \)，指针 \( i \) 向前移动。
-     - 如果 \( S_1[i] > S_2[j] \)，指针 \( j \) 向前移动。
+先对集合 \( S_2 \) 进行排序，然后对于集合 \( S_1 \) 中的每个元素，使用二分查找在排序后的 \( S_2 \) 中检查该元素是否存在。若存在，则该元素是交集的一部分。
 
-3. **终止条件：**
-   - 当任一指针超过对应集合长度时，停止遍历。
-
-4. **结果返回：**
-   - 返回保存交集结果的集合。
 
 ```
-Function Intersection(S1, S2):
-    sort S1  // 时间复杂度 O(N log N)
-    sort S2  // 时间复杂度 O(M log M)
-    i ← 0
-    j ← 0
-    Result ← Empty Set
-    while i < N and j < M: // 时间复杂度 O(N + M)
-        if S1[i] == S2[j]:
-            Add S1[i] to Result
-            i ← i + 1
-            j ← j + 1
-        else if S1[i] < S2[j]:
-            i ← i + 1
+function heap_sort(S2):
+    build_max_heap(S2)
+    for i = length(S2) - 1 down to 1:
+        swap S2[0] and S2[i]
+        heapify(S2, 0, i)
+
+function binary_search(S2, target):
+    low = 0
+    high = length(S2) - 1
+    while low <= high:
+        mid = (low + high) / 2
+        if S2[mid] == target:
+            return true
+        else if S2[mid] < target:
+            low = mid + 1
         else:
-            j ← j + 1
-    return Result
-```
-综上, 总时间复杂度为:
-$$O(N\log N)+O(\log N\log\log N)+O(N+\log N) = O(N\log N)$$
+            high = mid - 1
+    return false
 
+function intersection(S1, S2):
+    heap_sort(S2)
+    result = empty set  // 初始化交集结果集合
+    // 第二步：对 S1 中的每个元素进行二分查找
+    for each element x in S1:
+        if binary_search(S2, x):
+            result.add(x)
+    return result
+```
+- 堆排序的时间复杂度为 \( O(M \log M) \).
+- 对于 \( S_1 \) 中的每个元素，二分查找的时间复杂度为 \( O(\log M) \).
+- 因此，整个算法的总时间复杂度为：
+  \[
+  O(M \log M + N \log M) = O(N\log\log N)
+  \]
 ### 3.
 (1)
 |HT|0|1|2|3|4|5|6|7|8|9|
