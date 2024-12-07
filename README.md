@@ -1,4 +1,18 @@
+## 2024/12/5
+
+- 20、22、23 年普通班上机题题解+代码
+
+by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
+
+## 2024/12/2
+
+- mooc 12
+- 24 期中
+
+by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
+
 ## 2024/11/27
+
 - 笔记 7,8
 ## 2024/11/18
 - mooc 10-11
