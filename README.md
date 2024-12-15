@@ -1,4 +1,11 @@
+## 2024/12/15
+
+- 21 年普通班上机题题解+代码
+
+by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
+
 ## 2024/12/7
+
 前两天有点忙, 更新不及时, 争取今天更完
 - 书面 9, 10
 - note 9
