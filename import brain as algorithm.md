@@ -21,32 +21,33 @@ for (int i=2,j=0;i<=n;i++){
 
 2. dijkstra算法 (用堆实现)
 ```cpp
-int dis[N], vis[N] = {}; // 起点到i的最短距离, 是否已访问过
-priority_queue<pair<int, int>, vector <pair<int, int>>, greater<pair<int, int>>> q;
-// first 是距离，second 是点的编号
+int w[maxn][maxn]; //已memset(w, 0x3f, sizeof(w)),且连边的数据已加载
+int dis[maxn],vis[maxn]; // dis最短距离, vis是否访问
+int n; // 顶点数, 从1开始
+
 void dijkstra(int s){
-    memset(dis, 0x3f, sizeof(dis)); // 初始化距离为无穷大
-    dis[s] = 0; // 起点到自己的距离为0
-    q.push({0, s}); // 起点入队
-    while (!q.empty()){
-        int u = q.top().second; // 取出队列中的最小值
-        q.pop(); // 弹出
-        if (vis[u]) continue; // 如果已经访问过，跳过
-        vis[u] = 1; // 标记为已访问
-        for (auto e : G[u]){ // 遍历所有与u相连的边
-            int v = e.first, w = e.second; // v 是另一个点，w 是边的权重
-            dis[v] = min(dis[v], dis[u] + w); // 更新最短距离
-            q.push({dis[v], v}); // 将v放入队列
-            }
-        }
-    }
+	priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q; // first 是距离，second 是点的编号
+	memset(dis,0x3f,sizeof(dis));
+	dis [s] = 0;
+	q.push({0,s});// 起点
+	while(!q.empty()){
+		int u = q.top().second;// 取出最小距离的点
+		q.pop();
+		if (vis[u])continue;
+		vis[u] = 1;// 标记已访问
+		for (int i=1;i<=n;i++){
+			int w0 = min(w[i][u],w[u][i]); 
+			dis[i] = min(dis[i],dis[u]+w0);// 更新距离
+			q.push({dis[i],i});// 加入队列
+		}
+	}
 }
 ```
 
 3. floyd算法
 ```cpp
 memset(g, 0x3f, sizeof(g));
-g[i][i] = 0;
+for(int i=1;i<=n;i++)g[i][i] = 0;
 for (int k=1;k<=n;k++)
     for (int i=1;i<=n;i++)
         for (int j=1;j<=n;j++)
@@ -93,6 +94,19 @@ void merge_sort(int l, int r){
     while (i <= mid) b[k++] = a[i++]; // 处理剩余部分
     while (j <= r) b[k++] = a[j++];
     for (int i = l; i <= r; i++) a[i] = b[i - l]; // 将合并后的数组复制回原数组
+}
+```
+
+6. 二分法
+```cpp
+bool check(int x) {}// 判断 x 是否满足条件
+int binarySearch(int left, int right) {
+    while (left < right) {
+        int mid = left + (right - left) / 2; // 防溢出
+        if (check(mid)) left = mid + 1; 
+        else right = mid;    
+    }
+    return left - 1; // 返回符合条件的最大值
 }
 ```
 

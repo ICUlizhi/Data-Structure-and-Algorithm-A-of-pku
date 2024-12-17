@@ -1,3 +1,7 @@
+## 2024/12/17
+- import brain as algorithm : 目前包括kmp, dij, floyd, kruskal, 二分法, 归并排序的简化模版, 供和我一样非oier的同学硬背代码
+- 默写常用算法.cpp : 如题, 配套import brain as algorithm, 提供样例以检测代码正确性 (还不全)
+- 重新整理了目录
 ## 2024/12/16
 - stl and c++ : 完结
 - import brain as algorithm : 希望能在明天之前极限整理一波上机常用算法的代码, 包括kmp, dij等
@@ -80,7 +84,7 @@ by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
 
 第二遍做mooc第5章上的第二题时,它偷偷换了选项的两个字导致我选错,气死我了
 <p align="center">
-  <img src="640.gif" alt="1" />
+  <img src="homework/image/640.gif" alt="1" />
 </p>
 
 ## 2024/9/21
