@@ -9,7 +9,12 @@ char s[maxn];
 int nxt[maxn];
 void kmp(){
 	//TODO
-
+	nxt[1] = 0;
+	for (int i=2,j=0;i<=n;i++){
+		while(j&&s[i]!=s[j+1]) j=nxt[j];
+		if(s[i]==s[j+1]) j++;
+		nxt[i]=j;
+	}
 	//ENDTODO
 }
 
@@ -18,14 +23,36 @@ int w[maxn][maxn]; //已memset(w, 0x3f, sizeof(w));且连边的数据已加载
 int dis[maxn],vis[maxn];
 void dij(int s){ // 编号为s的点是起点, 所有点的下标范围为1-n
 	//TODO
-
+	priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
+	memset(dis,0x3f,sizeof(dis));
+	dis [s] = 0;
+	q.push({0,s});
+	while(!q.empty()){
+		int u = q.top().second;
+		q.pop();
+		if (vis[u])continue;
+		vis[u] = 1;
+		for (int i=1;i<=n;i++){
+			int w0 = min(w[i][u],w[u][i]);
+			dis[i] = min(dis[i],dis[u]+w0);
+			q.push({dis[i],i});
+		}
+	}
 	//ENDTODO
 }
 
 int g[maxn][maxn]; //已memset(g, 0x3f, sizeof(g));且连边的数据已加载
 void floyd(){
 	//TODO
-
+	for(int i=1;i<=n;i++) g[i][i]=0;
+	for(int k=1;k<=n;k++){
+		for(int i=1;i<=n;i++){
+			for(int j=1;j<=n;j++){
+				g[i][j] = min(g[i][j],g[i][k]+g[k][j]);
+				g[j][i] = g[i][j];
+			}
+		}
+	}
 	//ENDTODO
 }
 
@@ -34,7 +61,13 @@ bool check(int x) {
 }// 判断 x 是否满足条件
 int binarySearch(int left, int right) {
 	//TODO
-
+	if (check(right)) return right; // 如果 right 满足条件，直接返回 (因为处理不了)
+    while (left < right) {
+        int mid = left + (right - left) / 2; // 防溢出
+        if (check(mid)) left = mid + 1; 
+        else right = mid;    
+    }
+    return left - 1; // 返回符合条件的最大值
 	//ENDTODO
 }
 
@@ -45,12 +78,24 @@ vector<Edge> E, Etree;  // E存储边, Etree存储最小生成树的边
 int fa[114514];  // 用于并查集的父节点数组
 int find(int x) { // 查找函数，路径压缩优化
 	//TODO
-
+    return x == fa[x] ? x : fa[x] = find(fa[x]);
 	//ENDTODO
 }
 void Kruskal(){
 	//TODO
-
+    for (int i = 1; i <= n; i++) {  // 初始化并查集
+        fa[i] = i;
+    }
+    sort(E.begin(), E.end(), [](Edge a, Edge b) { 
+        return a.w < b.w;
+    });// 按照边的权重升序排序
+    for (Edge e : E) {
+        int u = find(e.u), v = find(e.v);  // 查找 u, v 的
+        if (u != v) {
+			fa[u] = v;  // 合并 u, v
+			Etree.push_back(e);  // 将边加入最小生成树
+		}
+    }
 	//ENDTODO
 }
 

@@ -46,12 +46,17 @@ void dijkstra(int s){
 
 3. floyd算法
 ```cpp
-memset(g, 0x3f, sizeof(g));
-for(int i=1;i<=n;i++)g[i][i] = 0;
-for (int k=1;k<=n;k++)
-    for (int i=1;i<=n;i++)
-        for (int j=1;j<=n;j++)
-            g[i][j] = min(g[i][j],g[i][k]+g[k][j]);
+void floyd(){// g是邻接矩阵, 已经memset(g, 0x3f, sizeof(g))过且已经加载了边的数据
+	for(int i=1;i<=n;i++) g[i][i]=0;
+	for(int k=1;k<=n;k++){
+		for(int i=1;i<=n;i++){
+			for(int j=1;j<=n;j++){
+				g[i][j] = min(g[i][j],g[i][k]+g[k][j]);
+				g[j][i] = g[i][j]; //无向图同步更新
+			}
+		}
+	}
+}
 ```
 
 
@@ -60,13 +65,13 @@ for (int k=1;k<=n;k++)
 struct Edge {
     int u, v, w;  // u, v: 两个节点，w: 边的权重
 };
-vector<Edge> E;  // 存储所有的边
+vector<Edge> E, Etree;  // 存储所有的边
 int fa[114514];  // 用于并查集的父节点数组
 int find(int x) { // 查找函数，路径压缩优化
     return x == fa[x] ? x : fa[x] = find(fa[x]);
 }
 void Kruskal(){
-    for (int i = 0; i < 114514; i++) {  // 初始化并查集
+    for (int i = 1; i <= n; i++) {  // 初始化并查集
         fa[i] = i;
     }
     sort(E.begin(), E.end(), [](Edge a, Edge b) { 
@@ -74,7 +79,10 @@ void Kruskal(){
     });// 按照边的权重升序排序
     for (Edge e : E) {
         int u = find(e.u), v = find(e.v);  // 查找 u, v 的
-        if (u != v) fa[u] = v; // 若没有形成环, 则合并
+        if (u != v) {
+			fa[u] = v;  // 合并 u, v
+			Etree.push_back(e);  // 将边加入最小生成树
+		}
     }
 }
 ```
@@ -101,6 +109,7 @@ void merge_sort(int l, int r){
 ```cpp
 bool check(int x) {}// 判断 x 是否满足条件
 int binarySearch(int left, int right) {
+	if (check(right)) return right; // 如果 right 满足条件，直接返回 (因为处理不了)
     while (left < right) {
         int mid = left + (right - left) / 2; // 防溢出
         if (check(mid)) left = mid + 1; 
