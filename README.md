@@ -1,3 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字展示</title>
+    <style>
+        .centered-text {
+            text-align: center;      /* 居中对齐 */
+            font-weight: bold;       /* 加粗 */
+            border: 2px solid black; /* 添加黑色边框 */
+            padding: 20px;           /* 添加内边距使文本不紧贴边框 */
+            width: 50%;              /* 设置宽度 */
+            margin: 20px auto;       /* 设置外边距，自动居中 */
+            font-size: 20px;         /* 设置字体大小 */
+        }
+    </style>
+</head>
+<body>
+    <div class="centered-text">
+        天不生我yty, 数算万古如长夜
+    </div>
+</body>
+</html>
+
+## 2024/12/20
+- 书面 11, 12
+
+下面准备参考大纲尽快更新 note 11和12, 力争本周末结束数算的知识体系
 ## 2024/12/18 9:00
 考前最后一push
 - import brain as algorithm : 目前包括kmp, dij, floyd, kruskal, 二分法, 归并排序的简化模版, 供和我一样非oier的同学硬背代码
@@ -19,6 +48,7 @@ by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
 - 书面 9, 10
 - note 9
 > cb的课件不太行, 严重拖慢学习进度, zl的课件讲的清晰一点, 但似乎不会用office公式编辑器
+> 
 > 似乎有同学不知道数算有所谓"复习大纲", 于是我把这个文件放到根目录来了
 ## 2024/12/5
 

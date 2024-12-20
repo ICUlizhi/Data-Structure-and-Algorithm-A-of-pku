@@ -23,7 +23,7 @@ Node* search(Node* head, Node*& p, int K) {
 
 (2)
 注意到:
-$$ASP_{succ} = \frac{1}{n}\sum_{i\in [n]}\frac{1}{n}\sum_{j\in [n]}|i-j| = \frac{n}{3}-\frac{1}{3n}$$
+$$ASP_{succ} = \frac{1}{n}\sum_{i\in [n]}\frac{1}{n}\sum_{j\in [n]}|i-j|+1 = \frac{n}{3}+1-\frac{1}{3n}$$
 
 ### 2.
 

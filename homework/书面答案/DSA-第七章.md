@@ -15,7 +15,7 @@
 (2)
 
 考虑在如下图中以A为中心运行Dijkstra单源最短路径算法:
-![](../image/7-2-1.png)
+![](../../image/7-2-1.png)
 得到 $A\rightarrow C, A\rightarrow B\rightarrow D$, 这是一棵生成树且包含了 $A$ 到所有点的最短路径, 但与唯一最小生成树 $D-C-A-B$ 所连的边不符 (实际上路径权重和也不符).
 
 #### 3.
