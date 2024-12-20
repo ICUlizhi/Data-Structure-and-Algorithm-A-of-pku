@@ -1,6 +1,6 @@
-<div style="text-align: center; font-weight: bold; border: 2px solid black; padding: 20px; width: 50%; margin: 20px auto; font-size: 20px;">
-    天不生我yty, 数算万古如长夜
-</div>
+<p align="center">
+  <img src="image/yty.png" alt="1" width= 300 />
+</p>
 
 ## 2024/12/20
 - 书面 11, 12
@@ -94,7 +94,7 @@ by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
 
 第二遍做mooc第5章上的第二题时,它偷偷换了选项的两个字导致我选错,气死我了
 <p align="center">
-  <img src="homework/image/640.gif" alt="1" />
+  <img src="image/640.gif" alt="1" />
 </p>
 
 ## 2024/9/21
