@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文字展示</title>
-    <style>
-        .centered-text {
-            text-align: center;      /* 居中对齐 */
-            font-weight: bold;       /* 加粗 */
-            border: 2px solid black; /* 添加黑色边框 */
-            padding: 20px;           /* 添加内边距使文本不紧贴边框 */
-            width: 50%;              /* 设置宽度 */
-            margin: 20px auto;       /* 设置外边距，自动居中 */
-            font-size: 20px;         /* 设置字体大小 */
-        }
-    </style>
-</head>
-<body>
-    <div class="centered-text">
-        天不生我yty, 数算万古如长夜
-    </div>
-</body>
-</html>
+<div style="text-align: center; font-weight: bold; border: 2px solid black; padding: 20px; width: 50%; margin: 20px auto; font-size: 20px;">
+    天不生我yty, 数算万古如长夜
+</div>
 
 ## 2024/12/20
 - 书面 11, 12
