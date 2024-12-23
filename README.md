@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="image/yty.png" alt="1" width= 300 />
-</p>
+<p align="center"><img src="image/yty.png" alt="1" width= 300 /></p>
 
 ## 2024/12/21
 - mooc 期末考试 (题目选项均与去年相同)
