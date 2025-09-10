@@ -1,7 +1,25 @@
 
-# DSA
+# DSA-PKU
+
+<p align="center">
+| <a href="http://dsa.openjudge.cn/"><b>课程OJ</b></a> 
+| <a href="https://www.icourse163.org/learn/PKU-1002534001?tid=1467144741#/learn/content"><b>MOOC</b></a> 
+| <a href="http://dsalgo.openjudge.cn/"><b>MOOC OJ</b></a> 
+| <a href="https://pkuhub.cn/material/2"><b>PKUHUB笔记页</b></a> 
+| <a href="https://www.lyt0112.com/blog/course_review-zh#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95-a"><b>DSA-2022</b></a> |
+</p>
+
+## Latest News 🔥
+- [25/09] 我将于25秋担任数算A王乐业老师班的助教，期间将继续维护本仓库，当然更欢迎本学期选课的同学加入contribution ! （PS：也欢迎加入pkuhub平台开发，我的联系方式见[iculizhi.github.io](iculizhi.github.io))
+  - 笔记仓库无复杂pr规则必要, 适合git上手
+- [25/08] @Cgfyufsygsm 将成为25秋的ics助教
+- [25/03] 笔记同步于 [pkuhub](https://pkuhub.cn/material/2), 成为该笔记共享平台的第一份资料 (限校友访问)
+- [25/01] 2024秋版本由我和@Cgfyufsygsm 合作完成, 涵盖上机往年题解, 笔试往年题解, 笔记markdown源码等.
 
 
+
+<details>
+<summary> Previous News 📜</summary>
 # 24秋更新日志
 ## 2025/1/4
 - 考前最后一天, push了很多次, 群里讨论也激烈. 
@@ -49,8 +67,7 @@ by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
 前两天有点忙, 更新不及时, 争取今天更完
 - 书面 9, 10
 - note 9
-> cb的课件不太行, 严重拖慢学习进度, zl的课件讲的清晰一点, 但似乎不会用office公式编辑器
-> 
+
 > 似乎有同学不知道数算有所谓"复习大纲", 于是我把这个文件放到根目录来了
 ## 2024/12/5
 
@@ -130,7 +147,8 @@ by [Cgfyufsygsm](https://github.com/Cgfyufsygsm/)
 - oj 第二章线性表
 - mooc 前三章
 
-# 数据结构与算法A
-- 2024秋陈斌老师班
-- stl and c++.md是笔记,其他是搜罗的课程资料,所有作业会及时更新
+
+
+
+</details>
 
