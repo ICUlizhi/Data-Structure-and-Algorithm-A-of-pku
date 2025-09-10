@@ -5,95 +5,654 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>11-索引</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #24292e;
-            background-color: #fff;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            margin-top: 24px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            line-height: 1.25;
-        }
-        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        h3 { font-size: 1.25em; }
-        code {
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            background-color: rgba(27,31,35,0.05);
-            border-radius: 3px;
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-        }
-        pre {
-            padding: 16px;
-            overflow: auto;
-            font-size: 85%;
-            line-height: 1.45;
-            background-color: #f6f8fa;
-            border-radius: 6px;
-        }
-        pre code {
-            padding: 0;
-            background-color: transparent;
-        }
-        blockquote {
-            padding: 0 1em;
-            color: #6a737d;
-            border-left: 0.25em solid #dfe2e5;
-            margin: 16px 0;
-        }
-        table {
-            border-spacing: 0;
-            border-collapse: collapse;
-            margin: 16px 0;
-        }
-        table th, table td {
-            padding: 6px 13px;
-            border: 1px solid #dfe2e5;
-        }
-        table tr:nth-child(2n) {
-            background-color: #f6f8fa;
-        }
-        a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        img {
-            max-width: 100%;
-            box-sizing: content-box;
-        }
-        ul {
-            padding-left: 2em;
-        }
-        li {
-            margin: 0.25em 0;
-        }
+      
+    /* Enhanced Modern Styles for DSA Course Website */
+
+    /* CSS Variables for consistent theming */
+    :root {
+      --primary-color: #667eea;
+      --primary-dark: #764ba2;
+      --secondary-color: #f093fb;
+      --accent-color: #4facfe;
+      --success-color: #48bb78;
+      --warning-color: #ed8936;
+      --error-color: #f56565;
+      --info-color: #4299e1;
+      
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+      --glass-effect: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      
+      --text-primary: #2d3748;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      
+      --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 25px 50px rgba(0, 0, 0, 0.15);
+      --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+      
+      --border-radius: 12px;
+      --border-radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Advanced Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-gradient);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      height: 70px;
+    }
+
+    .nav-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4a5568;
+    }
+
+    .brand-link {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-icon {
+      font-size: 1.8rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #4a5568;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-link:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 220px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      padding: 0.5rem 0;
+      z-index: 1001;
+    }
+
+    .nav-item:hover .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-link {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      text-decoration: none;
+      color: #4a5568;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .dropdown-link:hover {
+      background: #f7fafc;
+      color: #667eea;
+      transform: translateX(5px);
+    }
+
+    .link-icon {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #4a5568;
+      transition: all 0.3s ease;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .content-wrapper {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 2rem 0;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    h1 { 
+      font-size: 2.5rem; 
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h2 { 
+      font-size: 2rem; 
+      color: #2d3748;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 0.5rem;
+      margin-top: 3rem;
+    }
+
+    h3 { 
+      font-size: 1.5rem; 
+      color: #4a5568;
+      margin-top: 2rem;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: #4a5568;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .link:hover {
+      color: #764ba2;
+      border-bottom-color: #667eea;
+    }
+
+    .inline-code {
+      background: #f7fafc;
+      color: #e53e3e;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.9em;
+      border: 1px solid #e2e8f0;
+    }
+
+    .code-block {
+      background: #1a202c;
+      border-radius: 12px;
+      margin: 2rem 0;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .code-header {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-bottom: 1px solid #4a5568;
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding: 1.5rem;
+      background: transparent;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+
+    .quote {
+      border-left: 4px solid #667eea;
+      background: #f7fafc;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #4a5568;
+    }
+
+    .content-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .list-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .list-item:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-item {
+      list-style: none;
+      padding: 0.8rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .task-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #667eea;
+    }
+
+    .task-item.completed {
+      opacity: 0.7;
+      text-decoration: line-through;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .data-table th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .data-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .data-table tr:hover {
+      background: #f7fafc;
+    }
+
+    .alert {
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      border-left: 4px solid;
+    }
+
+    .alert-note {
+      background: #ebf8ff;
+      border-left-color: #3182ce;
+      color: #2c5282;
+    }
+
+    .alert-warning {
+      background: #fed7d7;
+      border-left-color: #e53e3e;
+      color: #742a2a;
+    }
+
+    .alert-tip {
+      background: #f0fff4;
+      border-left-color: #38a169;
+      color: #22543d;
+    }
+
+    .divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      margin: 3rem 0;
+      border-radius: 2px;
+    }
+
+    .content-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      margin: 2rem 0;
+    }
+
+    .footer {
+      background: rgba(26, 32, 44, 0.95);
+      backdrop-filter: blur(10px);
+      color: #e2e8f0;
+      padding: 3rem 0 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #667eea;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #667eea;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid #4a5568;
+      margin-top: 2rem;
+      color: #a0aec0;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 1rem;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 2rem;
+        transition: left 0.3s ease;
+        gap: 1rem;
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .dropdown-content {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        padding-left: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .content-wrapper {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  
     </style>
 </head>
 <body>
-    <p>---
+    
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a href="index.html" class="brand-link">
+            <span class="brand-icon">🎓</span>
+            <span class="brand-text">数据结构与算法 A</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📚 课程资源</a>
+            <div class="dropdown-content">
+              <a href="https://dsa.openjudge.cn/" target="_blank" class="dropdown-link">
+                <span class="link-icon">🎯</span>课程OJ
+              </a>
+              <a href="https://www.icourse163.org/course/PKU-1002534001" target="_blank" class="dropdown-link">
+                <span class="link-icon">📖</span>MOOC课程
+              </a>
+              <a href="http://dsalgo.openjudge.cn/" target="_blank" class="dropdown-link">
+                <span class="link-icon">💻</span>MOOC OJ
+              </a>
+              <a href="https://pkuhub.cn/course/1830" target="_blank" class="dropdown-link">
+                <span class="link-icon">🏫</span>PKUHUB课程页
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📝 学习资料</a>
+            <div class="dropdown-content">
+              <a href="notes-上机.html" class="dropdown-link">
+                <span class="link-icon">⚙️</span>上机笔记
+              </a>
+              <a href="notes-理论-期中前.html" class="dropdown-link">
+                <span class="link-icon">📊</span>理论笔记(期中前)
+              </a>
+              <a href="notes-理论-期中后.html" class="dropdown-link">
+                <span class="link-icon">📈</span>理论笔记(期中后)
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">🔧 助教工具</a>
+            <div class="dropdown-content">
+              <a href="ta-dashboard.html" class="dropdown-link">
+                <span class="link-icon">📊</span>助教工作台
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📋</span>作业管理
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📊</span>成绩统计
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">💬</span>答疑记录
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📅</span>课程安排
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📚 往年资源</a>
+            <div class="dropdown-content">
+              <a href="往年资料/" class="dropdown-link">
+                <span class="link-icon">📁</span>往年资料
+              </a>
+              <a href="往年资料/" class="dropdown-link">
+                <span class="link-icon">📝</span>往年题解
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="README.html" class="nav-link">ℹ️ 关于</a>
+          </div>
+        </div>
+        <div class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+  
+    
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="content-wrapper">
+                <p><hr class="divider">
 id: notes
----
+<hr class="divider">
 @import "/.crossnote/notes.less";
 
 <h1>11 索引</h1>
 <h2>11.1 定义</h2>
-<li>主码 : 数据库中每条记录的唯一标识</li>
-<li>辅码 : 数据库中可出现重复值的码（属性）</li>
+<ul class="content-list"><li class="list-item">主码 : 数据库中每条记录的唯一标识</li><li class="list-item">辅码 : 数据库中可出现重复值的码（属性）</li></ul>
   - 辅码索引把一个辅码值与具有这个辅码值的多条记录的主码值关联起来
   - 多数检索都是利用辅码索引完成的
-<li>索引 : (key, pointer)</li>
-<li>索引文件：用于记录这种联系的文件</li>
+<ul class="content-list"><li class="list-item">索引 : (key, pointer)</li><li class="list-item">索引文件：用于记录这种联系的文件</li></ul>
   - 稠密索引 : 对每个记录建立一个索引项
     - 主文件不需按关键码次序排列
   - 稀疏索引 : 对一组记录建立一个索引
@@ -101,7 +660,7 @@ id: notes
 
 <h3>线性索引</h3>
 按照索引码值的顺序进行排序的文件
-<li>优缺点</li>
+<ul class="content-list"><li class="list-item">优缺点</li></ul>
   - 可对变长的数据库记录访问
   - 支持对数据的高效检索
     - 二分检索
@@ -118,17 +677,16 @@ id: notes
 ___
 
 <h3>静态索引</h3>
-<li>索引结构在文件创建时生成</li>
-<li>一旦生成就固定下来, 在系统运行(例如插入和删除记录)</li>
+<ul class="content-list"><li class="list-item">索引结构在文件创建时生成</li><li class="list-item">一旦生成就固定下来, 在系统运行(例如插入和删除记录)</li></ul>
 过程中, 索引结构不做改变
-<li>只有当文件再组织时才允许改变索引结构</li>
-> 多分树 : 大大减少访问外存的次数
+<ul class="content-list"><li class="list-item">只有当文件再组织时才允许改变索引结构</li></ul>
+<blockquote class="quote">多分树 : 大大减少访问外存的次数</blockquote>
 
 <h3>倒排索引</h3>
-<li>按属性值建立索引, 索引表中的每一项包括 (attr,  ptrList):</li>
+<ul class="content-list"><li class="list-item">按属性值建立索引, 索引表中的每一项包括 (attr,  ptrList):</li></ul>
  - 一个属性值
  - 具有该属性值的各关键码或者记录地址
-<li>优缺点</li>
+<ul class="content-list"><li class="list-item">优缺点</li></ul>
   - 支持基于属性的高效检索
   - 花费储存倒排表的代价, 降低更新的效率
 <h2>11.2 动态索引 (B树)</h2>
@@ -136,33 +694,27 @@ ___
 <h3>B树</h3>
 <strong>B树的定义</strong>
 $m$ 阶 $B$ 树是一棵 $m$ 路查找树, 或者为空, 或者:
-<li>下界 : 根节点至少有两个子树, 其他非叶节点至少有 $\lceil m/2\rceil$ 个子树</li>
-<li>上界 : 每个节点至多有 $m$ 个子树</li>
-<li>有 $k$ 个子树的节点有 $k-1$ 个关键码</li>
-<li>所有叶节点都在同一层, 有 $\lceil m/2\rceil - 1$ 到 $m-1$ 个关键码</li>
+<ul class="content-list"><li class="list-item">下界 : 根节点至少有两个子树, 其他非叶节点至少有 $\lceil m/2\rceil$ 个子树</li><li class="list-item">上界 : 每个节点至多有 $m$ 个子树</li><li class="list-item">有 $k$ 个子树的节点有 $k-1$ 个关键码</li><li class="list-item">所有叶节点都在同一层, 有 $\lceil m/2\rceil - 1$ 到 $m-1$ 个关键码</li></ul>
 
 $B$ 树的一个包含 $j$ 个关键码, $j+1$ 个指针的节点的一般形式为:
-<li>$P_0, K_1, P_1, K_2, P_2, \dots, K_j, P_j$</li>
+<ul class="content-list"><li class="list-item">$P_0, K_1, P_1, K_2, P_2, \dots, K_j, P_j$</li></ul>
   - $K_i$ 是关键码值, $K_1 < K_2 < \dots < K_j$
   - $P_i$ 是指向包括 $K_i$ 到 $K_{i+1}$ 的子树的指针
 
 每个关键码对应一个记录指针域
 
 <strong>B树的特点</strong>
-<li>访问局部性</li>
-<li>高度平衡</li>
-<li>父节点关键码值是子节点的分界</li>
-<li>节点关键码至少一定比例是满的</li>
+<ul class="content-list"><li class="list-item">访问局部性</li><li class="list-item">高度平衡</li><li class="list-item">父节点关键码值是子节点的分界</li><li class="list-item">节点关键码至少一定比例是满的</li></ul>
   - 改进空间利用率, 减少检索, 更新操作的I/O次数
 
-> 课件上带过了一个性质 : 外部指针数等于关键码数加一, 这个性质的本质是:
-> <strong>满 k 叉树 Green 公式</strong> : 
-> $$\sum_{外部节点}1=1+\sum_{内部节点}(节点子树数量-1)$$
-> 应用到 B 树, 每个节点的关键码数恰好是节点子树数量-1, 所以外部指针数等于关键码数加一.
-> 这个公式实际上是 Green 公式的一个离散形式
-> - 节点子树数量-1 是节点的通量, 因为节点出度是子树数量, 入度是1
-> - 外 = 1 + 内, 多出来的 1 是根节点的入度, 这保证了树成为一个闭区域
-> - 发明人xj🤓
+<blockquote class="quote">课件上带过了一个性质 : 外部指针数等于关键码数加一, 这个性质的本质是:</blockquote>
+<blockquote class="quote"><strong>满 k 叉树 Green 公式</strong> : </blockquote>
+<blockquote class="quote">$$\sum_{外部节点}1=1+\sum_{内部节点}(节点子树数量-1)$$</blockquote>
+<blockquote class="quote">应用到 B 树, 每个节点的关键码数恰好是节点子树数量-1, 所以外部指针数等于关键码数加一.</blockquote>
+<blockquote class="quote">这个公式实际上是 Green 公式的一个离散形式</blockquote>
+<blockquote class="quote">- 节点子树数量-1 是节点的通量, 因为节点出度是子树数量, 入度是1</blockquote>
+<blockquote class="quote">- 外 = 1 + 内, 多出来的 1 是根节点的入度, 这保证了树成为一个闭区域</blockquote>
+<blockquote class="quote">- 发明人xj🤓</blockquote>
 
 
 <strong>B树的查找</strong> : 从根节点开始, 逐层查找, 如果指向空节点, 则查找失败
@@ -178,27 +730,24 @@ $B$ 树的一个包含 $j$ 个关键码, $j+1$ 个指针的节点的一般形式
 <strong>答案:</strong> 3
 ___
 <strong>B树的插入</strong>
-<li>找到最底层插入</li>
-<li>若溢出, 分裂节点, 中间关键码连同新指针插入父节点</li>
-<li>若父节点溢出, 继续分裂, 可能一直到根节点(则树升高一层)</li>
+<ul class="content-list"><li class="list-item">找到最底层插入</li><li class="list-item">若溢出, 分裂节点, 中间关键码连同新指针插入父节点</li><li class="list-item">若父节点溢出, 继续分裂, 可能一直到根节点(则树升高一层)</li></ul>
 
-> 节点分裂方法, 假如插入后节点状态为 $p=(m,A_0,K_1,A_1,\dots,K_m,A_m)$, 则拆分成两个节点 $p=(\lceil m/2\rceil-1,A_0,K_1,A_1,\dots,K_{\lceil m/2\rceil-1},A_{\lceil m/2\rceil-1})$ 和 $q=(m-\lceil m/2\rceil,A_{\lceil m/2\rceil},K_{\lceil m/2\rceil+1},A_{\lceil m/2\rceil+1},\dots,K_m,A_m)$, 中间关键码 $K_{\lceil m/2\rceil}$ 与指向新节点 $q$ 的指针插入父节点
+<blockquote class="quote">节点分裂方法, 假如插入后节点状态为 $p=(m,A_0,K_1,A_1,\dots,K_m,A_m)$, 则拆分成两个节点 $p=(\lceil m/2\rceil-1,A_0,K_1,A_1,\dots,K_{\lceil m/2\rceil-1},A_{\lceil m/2\rceil-1})$ 和 $q=(m-\lceil m/2\rceil,A_{\lceil m/2\rceil},K_{\lceil m/2\rceil+1},A_{\lceil m/2\rceil+1},\dots,K_m,A_m)$, 中间关键码 $K_{\lceil m/2\rceil}$ 与指向新节点 $q$ 的指针插入父节点</blockquote>
 
 <strong>B树的删除</strong>
-<li>删除的关键码在叶节点</li>
+<ul class="content-list"><li class="list-item">删除的关键码在叶节点</li></ul>
   - 若删除后节点关键码数小于 $\lceil m/2\rceil-1$
     - 若兄弟节点关键码数大于 $\lceil m/2\rceil-1$, 则从兄弟节点借关键码 (父节点分界关键码也要调整)
     - 若兄弟节点关键码数等于 $\lceil m/2\rceil-1$, 则合并节点
   - 若删除后节点关键码数不小于 $\lceil m/2\rceil-1$, 则直接删除
-<li>删除的关键码不在叶节点层</li>
+<ul class="content-list"><li class="list-item">删除的关键码不在叶节点层</li></ul>
   - 先把此关键码替换为其后继关键码, 再删除该关键码
 
 <h3>B+树</h3>
 B树的变种, 所有关键码都在叶节点, 各层节点中的关键码是下一层相应节点中最大关键码(或最小关键码)的拷贝
 
 <strong>B+树的特点</strong>
-<li>每个节点子节点数量在 $[\lceil m/2\rceil, m]$ , 根节点可以只有两个子节点 (空, 独根除外) 这一点与B树相同</li>
-<li>B+树和B树的差异</li>
+<ul class="content-list"><li class="list-item">每个节点子节点数量在 $[\lceil m/2\rceil, m]$ , 根节点可以只有两个子节点 (空, 独根除外) 这一点与B树相同</li><li class="list-item">B+树和B树的差异</li></ul>
   - B+树中 $n$ 棵子树的结点中含有 $n$ 个关键码, 而B树中 $n$ 棵子树的结点中含有 $n-1$ 个关键码
   - B+树叶子结点包含了完整的索引的信息, 而B树所有结点共同构成全部索引信息
   - B+树所有的非叶结点可以看成是高层索引, 结点中仅含有其子树中最大(或最小)关键码
@@ -207,17 +756,17 @@ B树的变种, 所有关键码都在叶节点, 各层节点中的关键码是下
   - b+树叶节点一般链接起来, 形成双链表, 便于范围查询, 需要的话每一层节点也都可以这样链接
 
 <strong>B+树的插入</strong> : 与B树类似, 左 $\lceil m/2\rceil$, 右 $\lfloor m/2\rfloor$, 注意上层关键码的维护
-> 两棵树分裂时都是左节点 $\lceil m/2\rceil$ 个子节点
+<blockquote class="quote">两棵树分裂时都是左节点 $\lceil m/2\rceil$ 个子节点</blockquote>
 
 <strong>B+树的删除</strong> : 与B树类似, 但被删除关键码的上层副本可以选择保留, 作为"分界关键码"存在
 
 <h3>性能分析</h3>
 m 阶 B树, 关键码为 $N$ 个, 内部节点数为 $p$, 则存取次数 $k$ 满足
 $$k\leq 1+\log_{\lceil\frac{m}{2}\rceil}\left(\frac{N+1}{2}\right)$$
-> B-树就是B树,这个公式的证明是 2021 考题, 如果使用满 $m$ 叉树的 Green 公式, 我们有:
-> $$n+1\ge 2\lceil \frac{m}{2}\rceil^{k-1}$$
-> 是不是秒出答案? 但是考试不能这么写, 需要拆开求和装个样子 Green 公式的作用是帮助验证答案和提高insight.
-> 更深的insight : 只要树满, 逐层算节点数目的时候等比数列的分母一定能消掉, 否则求对数没法这么简洁
+<blockquote class="quote">B-树就是B树,这个公式的证明是 2021 考题, 如果使用满 $m$ 叉树的 Green 公式, 我们有:</blockquote>
+<blockquote class="quote">$$n+1\ge 2\lceil \frac{m}{2}\rceil^{k-1}$$</blockquote>
+<blockquote class="quote">是不是秒出答案? 但是考试不能这么写, 需要拆开求和装个样子 Green 公式的作用是帮助验证答案和提高insight.</blockquote>
+<blockquote class="quote">更深的insight : 只要树满, 逐层算节点数目的时候等比数列的分母一定能消掉, 否则求对数没法这么简洁</blockquote>
 
 插入一个关键码的平均分裂节点次数为
 $$s=\frac{p-1}{N-1}\leq \frac{N-1}{(\lceil m/2\rceil-1)(N-1)} = \frac{1}{\lceil m/2\rceil-1}$$
@@ -226,48 +775,154 @@ $$s=\frac{p-1}{N-1}\leq \frac{N-1}{(\lceil m/2\rceil-1)(N-1)} = \frac{1}{\lceil 
 <h2>11.3 红黑树</h2>
 <h3>定义</h3>
 BST的染色版:
-<li>每个节点要么是红色, 要么是黑色</li>
-<li>根节点, 叶节点是黑色</li>
-<li>父子节点不能同时为红色</li>
-<li>任意结点到叶节点的路径上黑色结点数相同</li>
+<ul class="content-list"><li class="list-item">每个节点要么是红色, 要么是黑色</li><li class="list-item">根节点, 叶节点是黑色</li><li class="list-item">父子节点不能同时为红色</li><li class="list-item">任意结点到叶节点的路径上黑色结点数相同</li></ul>
 
 <strong>节点的阶</strong>
-<li>即从该节点到叶节点的黑色节点数, 不包括该节点本身, 包括叶节点</li>
-<li>叶节点的阶为0, 根节点的阶为该树的阶</li>
+<ul class="content-list"><li class="list-item">即从该节点到叶节点的黑色节点数, 不包括该节点本身, 包括叶节点</li><li class="list-item">叶节点的阶为0, 根节点的阶为该树的阶</li></ul>
 
 <strong>红黑树的性质</strong>
-<li>满二叉树 : 空树叶也看作节点</li>
-<li>$k$ 阶红黑树树高 $\in [k+1,2k+1]$</li>
-<li>$k$ 阶红黑树内部节点数最少是 $2^k-1$</li>
-<li>$n$ 个内部节点的红黑树树高最大是 $2\log_2(n+1)+1$</li>
-<li>红黑树检索, 插入, 删除的最差时间都是 $O(\log n)$</li>
+<ul class="content-list"><li class="list-item">满二叉树 : 空树叶也看作节点</li><li class="list-item">$k$ 阶红黑树树高 $\in [k+1,2k+1]$</li><li class="list-item">$k$ 阶红黑树内部节点数最少是 $2^k-1$</li><li class="list-item">$n$ 个内部节点的红黑树树高最大是 $2\log_2(n+1)+1$</li><li class="list-item">红黑树检索, 插入, 删除的最差时间都是 $O(\log n)$</li></ul>
 
 <h3>操作</h3>
 <strong>左旋与右旋</strong> ->左旋(x), <-右旋(y)
-<pre><code>
+``<code class="inline-code">
     x              y
    / \            / \
   a   y    <->   x   c
      / \        / \  
     b   c      a   b 
-</code></pre>
+</code>``
 保留BST的性质, 旋转后的树的中序遍历结果不变 $(a<A<b<B<c)$
 
 <strong>红黑树的插入</strong>
-<li>插入节点为红色</li>
-<li>若父节点为黑色, 不违反性质, <strong>直接插入</strong></li>
-<li>若父节点为红色, 则祖父黑, 不妨设父节点在左, 叔节点在右 </li>
+<ul class="content-list"><li class="list-item">插入节点为红色</li><li class="list-item">若父节点为黑色, 不违反性质, <strong>直接插入</strong></li><li class="list-item">若父节点为红色, 则祖父黑, 不妨设父节点在左, 叔节点在右 </li></ul>
   - 如果没有叔节点, 则视其为黑色
   - 叔节点为红色, 则将父节点, 叔节点染黑, 祖父节点染红, <strong>递归</strong>调整祖父节点 (若祖父节点为根节点, 则不必染红)
   - 叔节点为黑色, 且当前节点为右子节点, 则左旋父节点, <strong>转化</strong>为左子节点的情况
   - 叔节点为黑色, 且当前节点为左子节点, 则右旋祖父节点, 旋转前的祖父节点染红, 父节点染黑, <strong>结束</strong>
-<li>时间复杂度 $O(\log n)$, 因为递归调整的次数不超过树高的一半</li>
+<ul class="content-list"><li class="list-item">时间复杂度 $O(\log n)$, 因为递归调整的次数不超过树高的一半</li></ul>
 
 <strong>BST的删除</strong>
-<li>没有儿子, 直接删除</li>
-<li>有一个儿子, 用儿子替代</li>
-<li>有两个儿子, 找到右子树的最小节点(即从右子树根出发递归找左儿子), 用该节点替代, 再删除该节点 (该节点最多只有一个右儿子) (或者找左子树的最大节点)</li>
+<ul class="content-list"><li class="list-item">没有儿子, 直接删除</li><li class="list-item">有一个儿子, 用儿子替代</li><li class="list-item">有两个儿子, 找到右子树的最小节点(即从右子树根出发递归找左儿子), 用该节点替代, 再删除该节点 (该节点最多只有一个右儿子) (或者找左子树的最大节点)</li></ul>
 
 <strong>红黑树的删除</strong> : 不考, 懒得写了</p>
+            </div>
+        </div>
+    </main>
+    
+    
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>课程信息</h3>
+          <p>北京大学数据结构与算法A</p>
+          <p>2025年秋季学期</p>
+        </div>
+        <div class="footer-section">
+          <h3>快速链接</h3>
+          <ul class="footer-links">
+            <li><a href="https://dsa.openjudge.cn/">课程OJ</a></li>
+            <li><a href="https://pkuhub.cn/course/1830">PKUHUB</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>联系方式</h3>
+          <p>助教：ICUlizhi</p>
+          <p>邮箱：iculizhi@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 数据结构与算法A - PKU. All rights reserved.</p>
+      </div>
+    </footer>
+  
+    
+    <script>
+      
+    // 移动端菜单切换
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+    }
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // 导航栏滚动效果
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+      } else {
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // 代码块复制功能
+    document.querySelectorAll('.code-block').forEach(block => {
+      const button = document.createElement('button');
+      button.className = 'copy-button';
+      button.textContent = '复制';
+      button.addEventListener('click', () => {
+        const code = block.querySelector('code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          button.textContent = '已复制!';
+          setTimeout(() => {
+            button.textContent = '复制';
+          }, 2000);
+        });
+      });
+      block.appendChild(button);
+    });
+
+    // 添加CSS样式用于复制按钮
+    const style = document.createElement('style');
+    style.textContent = `
+      .code-block {
+        position: relative;
+      }
+      .copy-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+      }
+      .copy-button:hover {
+        background: #764ba2;
+        transform: translateY(-2px);
+      }
+    `;
+    document.head.appendChild(style);
+  
+    </script>
 </body>
 </html>

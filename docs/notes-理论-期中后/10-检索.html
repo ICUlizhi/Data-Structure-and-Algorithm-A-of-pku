@@ -5,160 +5,713 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>10-检索</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #24292e;
-            background-color: #fff;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            margin-top: 24px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            line-height: 1.25;
-        }
-        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        h3 { font-size: 1.25em; }
-        code {
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            background-color: rgba(27,31,35,0.05);
-            border-radius: 3px;
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-        }
-        pre {
-            padding: 16px;
-            overflow: auto;
-            font-size: 85%;
-            line-height: 1.45;
-            background-color: #f6f8fa;
-            border-radius: 6px;
-        }
-        pre code {
-            padding: 0;
-            background-color: transparent;
-        }
-        blockquote {
-            padding: 0 1em;
-            color: #6a737d;
-            border-left: 0.25em solid #dfe2e5;
-            margin: 16px 0;
-        }
-        table {
-            border-spacing: 0;
-            border-collapse: collapse;
-            margin: 16px 0;
-        }
-        table th, table td {
-            padding: 6px 13px;
-            border: 1px solid #dfe2e5;
-        }
-        table tr:nth-child(2n) {
-            background-color: #f6f8fa;
-        }
-        a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        img {
-            max-width: 100%;
-            box-sizing: content-box;
-        }
-        ul {
-            padding-left: 2em;
-        }
-        li {
-            margin: 0.25em 0;
-        }
+      
+    /* Enhanced Modern Styles for DSA Course Website */
+
+    /* CSS Variables for consistent theming */
+    :root {
+      --primary-color: #667eea;
+      --primary-dark: #764ba2;
+      --secondary-color: #f093fb;
+      --accent-color: #4facfe;
+      --success-color: #48bb78;
+      --warning-color: #ed8936;
+      --error-color: #f56565;
+      --info-color: #4299e1;
+      
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+      --glass-effect: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      
+      --text-primary: #2d3748;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      
+      --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 25px 50px rgba(0, 0, 0, 0.15);
+      --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+      
+      --border-radius: 12px;
+      --border-radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Advanced Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-gradient);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      height: 70px;
+    }
+
+    .nav-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4a5568;
+    }
+
+    .brand-link {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-icon {
+      font-size: 1.8rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #4a5568;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-link:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 220px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      padding: 0.5rem 0;
+      z-index: 1001;
+    }
+
+    .nav-item:hover .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-link {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      text-decoration: none;
+      color: #4a5568;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .dropdown-link:hover {
+      background: #f7fafc;
+      color: #667eea;
+      transform: translateX(5px);
+    }
+
+    .link-icon {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #4a5568;
+      transition: all 0.3s ease;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .content-wrapper {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 2rem 0;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    h1 { 
+      font-size: 2.5rem; 
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h2 { 
+      font-size: 2rem; 
+      color: #2d3748;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 0.5rem;
+      margin-top: 3rem;
+    }
+
+    h3 { 
+      font-size: 1.5rem; 
+      color: #4a5568;
+      margin-top: 2rem;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: #4a5568;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .link:hover {
+      color: #764ba2;
+      border-bottom-color: #667eea;
+    }
+
+    .inline-code {
+      background: #f7fafc;
+      color: #e53e3e;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.9em;
+      border: 1px solid #e2e8f0;
+    }
+
+    .code-block {
+      background: #1a202c;
+      border-radius: 12px;
+      margin: 2rem 0;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .code-header {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-bottom: 1px solid #4a5568;
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding: 1.5rem;
+      background: transparent;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+
+    .quote {
+      border-left: 4px solid #667eea;
+      background: #f7fafc;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #4a5568;
+    }
+
+    .content-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .list-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .list-item:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-item {
+      list-style: none;
+      padding: 0.8rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .task-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #667eea;
+    }
+
+    .task-item.completed {
+      opacity: 0.7;
+      text-decoration: line-through;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .data-table th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .data-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .data-table tr:hover {
+      background: #f7fafc;
+    }
+
+    .alert {
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      border-left: 4px solid;
+    }
+
+    .alert-note {
+      background: #ebf8ff;
+      border-left-color: #3182ce;
+      color: #2c5282;
+    }
+
+    .alert-warning {
+      background: #fed7d7;
+      border-left-color: #e53e3e;
+      color: #742a2a;
+    }
+
+    .alert-tip {
+      background: #f0fff4;
+      border-left-color: #38a169;
+      color: #22543d;
+    }
+
+    .divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      margin: 3rem 0;
+      border-radius: 2px;
+    }
+
+    .content-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      margin: 2rem 0;
+    }
+
+    .footer {
+      background: rgba(26, 32, 44, 0.95);
+      backdrop-filter: blur(10px);
+      color: #e2e8f0;
+      padding: 3rem 0 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #667eea;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #667eea;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid #4a5568;
+      margin-top: 2rem;
+      color: #a0aec0;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 1rem;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 2rem;
+        transition: left 0.3s ease;
+        gap: 1rem;
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .dropdown-content {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        padding-left: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .content-wrapper {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  
     </style>
 </head>
 <body>
-    <p>---
+    
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a href="index.html" class="brand-link">
+            <span class="brand-icon">🎓</span>
+            <span class="brand-text">数据结构与算法 A</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📚 课程资源</a>
+            <div class="dropdown-content">
+              <a href="https://dsa.openjudge.cn/" target="_blank" class="dropdown-link">
+                <span class="link-icon">🎯</span>课程OJ
+              </a>
+              <a href="https://www.icourse163.org/course/PKU-1002534001" target="_blank" class="dropdown-link">
+                <span class="link-icon">📖</span>MOOC课程
+              </a>
+              <a href="http://dsalgo.openjudge.cn/" target="_blank" class="dropdown-link">
+                <span class="link-icon">💻</span>MOOC OJ
+              </a>
+              <a href="https://pkuhub.cn/course/1830" target="_blank" class="dropdown-link">
+                <span class="link-icon">🏫</span>PKUHUB课程页
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📝 学习资料</a>
+            <div class="dropdown-content">
+              <a href="notes-上机.html" class="dropdown-link">
+                <span class="link-icon">⚙️</span>上机笔记
+              </a>
+              <a href="notes-理论-期中前.html" class="dropdown-link">
+                <span class="link-icon">📊</span>理论笔记(期中前)
+              </a>
+              <a href="notes-理论-期中后.html" class="dropdown-link">
+                <span class="link-icon">📈</span>理论笔记(期中后)
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">🔧 助教工具</a>
+            <div class="dropdown-content">
+              <a href="ta-dashboard.html" class="dropdown-link">
+                <span class="link-icon">📊</span>助教工作台
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📋</span>作业管理
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📊</span>成绩统计
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">💬</span>答疑记录
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📅</span>课程安排
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📚 往年资源</a>
+            <div class="dropdown-content">
+              <a href="往年资料/" class="dropdown-link">
+                <span class="link-icon">📁</span>往年资料
+              </a>
+              <a href="往年资料/" class="dropdown-link">
+                <span class="link-icon">📝</span>往年题解
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="README.html" class="nav-link">ℹ️ 关于</a>
+          </div>
+        </div>
+        <div class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+  
+    
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="content-wrapper">
+                <p><hr class="divider">
 id: notes
----
+<hr class="divider">
 @import "/.crossnote/notes.less";
 
 <h1>10 检索</h1>
 <h2>10.1 定义</h2>
-<li>平均检索长度 (ASL)</li>
+<ul class="content-list"><li class="list-item">平均检索长度 (ASL)</li></ul>
 $$ASL=\sum_{i=1}^n P_iC_i$$
-> 注意概率分布的隐含条件 $\sum p = 1$
+<blockquote class="quote">注意概率分布的隐含条件 $\sum p = 1$</blockquote>
 
 <h3>线性表检索</h3>
 <strong>"监视哨"顺序检索算法</strong>
-<li>即为在待检索的数组末尾加上 $a[n]=key$, 以节省遍历时的数组越界检查, 复杂度还是 $O(n)$</li>
-<li>性能分析: (假设检索成功率是 $p$)</li>
+<ul class="content-list"><li class="list-item">即为在待检索的数组末尾加上 $a[n]=key$, 以节省遍历时的数组越界检查, 复杂度还是 $O(n)$</li><li class="list-item">性能分析: (假设检索成功率是 $p$)</li></ul>
 $$\frac{n+1}{2}<ASL=\frac{n+1}{2}p+(n+1)(1-p)<n+1$$
-<li>优点 : 插入元素可以直接加在末尾</li>
-<li>缺点 : 检索时间太长 $\Theta(n)$</li>
+<ul class="content-list"><li class="list-item">优点 : 插入元素可以直接加在末尾</li><li class="list-item">缺点 : 检索时间太长 $\Theta(n)$</li></ul>
 
 <strong>二分检索法</strong>
-<li>就是二分法, 需要先对数据排序</li>
-<li>成功的平均检索长度</li>
+<ul class="content-list"><li class="list-item">就是二分法, 需要先对数据排序</li><li class="list-item">成功的平均检索长度</li></ul>
 $$ASL_{succ} = \frac{1}{n}\sum_{i=1}^ji\cdot 2^{i-1} = \frac{n+1}{n}\log_2(n+1)-1\approx \log_2(n+1)-1$$
-<li>最大检索长度 $\lceil\log_1(n+1)\rceil$, 失败检索长度 $\lceil\log_2(n+1)\rceil$ 或 $\lfloor\log_2(n+1)\rfloor$</li>
-<li>优点: 平均与最大检索长度相近, 检索速度快</li>
-<li>缺点: 要排序, 顺序存储, 不易更新(插/删)</li>
+<ul class="content-list"><li class="list-item">最大检索长度 $\lceil\log_1(n+1)\rceil$, 失败检索长度 $\lceil\log_2(n+1)\rceil$ 或 $\lfloor\log_2(n+1)\rfloor$</li><li class="list-item">优点: 平均与最大检索长度相近, 检索速度快</li><li class="list-item">缺点: 要排序, 顺序存储, 不易更新(插/删)</li></ul>
 
 <strong>分块检索</strong>
-<li>按块有序, 块内无序, 是顺序与二分法的折衷</li>
-<li>$n$ 个元素, $b$ 个块 , 每个块至多 $s$ 个元素</li>
+<ul class="content-list"><li class="list-item">按块有序, 块内无序, 是顺序与二分法的折衷</li><li class="list-item">$n$ 个元素, $b$ 个块 , 每个块至多 $s$ 个元素</li></ul>
 
 
 
 $$\begin{align<em>}ASL&=ASL_b+ASL_w\\&\approx\log_2 (b+1)-1+\frac{s+1}{2}\end{align</em>}$$
 
-<li>当大量插入/删除时, 或结点分布不均匀时, 速度下降</li>
+<ul class="content-list"><li class="list-item">当大量插入/删除时, 或结点分布不均匀时, 速度下降</li></ul>
 
 <h3>集合检索</h3>
-<li>对于密集型集合, 用位向量表示, $\{0,1\}$ 表示是否有这个元素</li>
+<ul class="content-list"><li class="list-item">对于密集型集合, 用位向量表示, $\{0,1\}$ 表示是否有这个元素</li></ul>
   - 用 ulong 存, 每个存32个位
   - 位运算模拟集合交并
 
 <h3>散列表</h3>
 
-<li><strong>负载因子</strong> $\alpha = $ 填入表中的结点 $n/$ 散列表空间大小 $m$</li>
-<li><strong>冲突</strong> : 不同关键码计算出了相同的散列地址</li>
+<ul class="content-list"><li class="list-item"><strong>负载因子</strong> $\alpha = $ 填入表中的结点 $n/$ 散列表空间大小 $m$</li><li class="list-item"><strong>冲突</strong> : 不同关键码计算出了相同的散列地址</li></ul>
   - 现实中不冲突的散列函数极少存在
   - <strong>同义词</strong> : 产生冲突的两个关键码
 
 <h2>10.2 散列函数选取</h2>
 $$Address = Hash(Key)$$
-<li>运算简单, 值域在表长范围内, 尽可能单射</li>
+<ul class="content-list"><li class="list-item">运算简单, 值域在表长范围内, 尽可能单射</li></ul>
 
 <strong>常用散列函数</strong>
-<li><strong>除余法</strong> : $hash(key) = key/M$, 其中 $M$ 是一个接近散列长度的质数</li>
+<ul class="content-list"><li class="list-item"><strong>除余法</strong> : $hash(key) = key/M$, 其中 $M$ 是一个接近散列长度的质数</li></ul>
   - 缺点 : 连续的关键码映射成连续的散列值, 占据连续数组单元, 可能导致性能降低
-<li><strong>乘余取整法</strong> : $hash(key) = \lfloor n\{Akey\}\rfloor$, 其中 $A\in (0,1)$</li>
+<ul class="content-list"><li class="list-item"><strong>乘余取整法</strong> : $hash(key) = \lfloor n\{Akey\}\rfloor$, 其中 $A\in (0,1)$</li></ul>
   - 若地址空间为 $p$, 就取 $n=2^p$, 则地址恰是小数点后 $p$ 位
   - $A$ 可以取任何值, 与待排序的数据特征有关, 一般取黄金分割最理想
-<li><strong>平方取中法</strong> : 先求平方, 再取其中几位或其组合作为地址</li>
-<li><strong>数字分析法</strong> : 对 $n$ 个 $d$ 位数, 每一位可能有 $r$ 种不同的符号, 在各位上出现频率不一定相同. 可根据散列表大小, 选取期中分布均匀的若干位作为地址.</li>
+<ul class="content-list"><li class="list-item"><strong>平方取中法</strong> : 先求平方, 再取其中几位或其组合作为地址</li><li class="list-item"><strong>数字分析法</strong> : 对 $n$ 个 $d$ 位数, 每一位可能有 $r$ 种不同的符号, 在各位上出现频率不一定相同. 可根据散列表大小, 选取期中分布均匀的若干位作为地址.</li></ul>
   - 这一方法完全依赖于关键码集合的性质
-> 各位数字中符号分布的均匀度 $\lambda_k$
-> $$\lambda_k = \sum_{i=1}^r(\alpha_i^k - n/r)^2$$
-> - $\alpha_i^k$ : 第 $i$ 个符号在第 $k$ 位上出现的次数
-> - $n/r$ : 各种符号在 $n$ 个数中均匀出现的期望值
-> - $\lambda_k$ 越小, 说明越均匀
-<li><strong>基数转换法</strong> : 把关键码看成是另一进制上的数, 再把它转换成原来进制上的数, 取其中若干位作为散列地址</li>
+<blockquote class="quote">各位数字中符号分布的均匀度 $\lambda_k$</blockquote>
+<blockquote class="quote">$$\lambda_k = \sum_{i=1}^r(\alpha_i^k - n/r)^2$$</blockquote>
+<blockquote class="quote">- $\alpha_i^k$ : 第 $i$ 个符号在第 $k$ 位上出现的次数</blockquote>
+<blockquote class="quote">- $n/r$ : 各种符号在 $n$ 个数中均匀出现的期望值</blockquote>
+<blockquote class="quote">- $\lambda_k$ 越小, 说明越均匀</blockquote>
+<ul class="content-list"><li class="list-item"><strong>基数转换法</strong> : 把关键码看成是另一进制上的数, 再把它转换成原来进制上的数, 取其中若干位作为散列地址</li></ul>
   - 一般取大于原来基数的数, 且互素
-<li><strong>折叠法</strong> : 将关键码分割成几部分, 将其叠加 (舍去进位) 作为散列地址</li>
+<ul class="content-list"><li class="list-item"><strong>折叠法</strong> : 将关键码分割成几部分, 将其叠加 (舍去进位) 作为散列地址</li></ul>
   - 移位叠加 : 把各部分的最后一位对齐相加
   - 分界叠加 : 各部分不折断, 来回折叠对齐相加
   - 适用于长关键码
-<li><strong>ELFhash字符串散列函数</strong> : </li>
+<ul class="content-list"><li class="list-item"><strong>ELFhash字符串散列函数</strong> : </li></ul>
   - 长字符串和短字符串都很有效
   - 字符串中每个字符都有同样的作用
   - 对于散列表中的位置不可能产生不平均的分布
-<pre><code>
+``<code class="inline-code">
 int ELFhash(char* key) {
   unsigned long h = 0;
   while(*key) {
@@ -169,38 +722,35 @@ int ELFhash(char* key) {
   }
   return h % M;
 }
-</code></pre>
+</code>``
 
 <h2>10.3  解决冲突</h2>
 <h3>开散列方法</h3>
 
 <strong>拉链法</strong> : 适用于内存
-<li>把散列表中的每个槽定义为一个链表的表头, 散列到特定槽的所有记录都放到这个槽的链表中</li>
+<ul class="content-list"><li class="list-item">把散列表中的每个槽定义为一个链表的表头, 散列到特定槽的所有记录都放到这个槽的链表中</li></ul>
   - 同义词表可以根据输入, 访问频率, 值的顺序组织
-<li>优点 : 简单, 适用于大量数据, 可取 $\alpha\ge 1$, 结点较大时效果好</li>
-<li>缺点 : 在磁盘上会产生大量访问开销</li>
+<ul class="content-list"><li class="list-item">优点 : 简单, 适用于大量数据, 可取 $\alpha\ge 1$, 结点较大时效果好</li><li class="list-item">缺点 : 在磁盘上会产生大量访问开销</li></ul>
 
 <strong>桶式散列</strong> : 适用于磁盘
-> 没啥意思, 感觉不会考
+<blockquote class="quote">没啥意思, 感觉不会考</blockquote>
 
 <h3>闭散列方法</h3>
 
-<li>$d_0=h(K)$ 称为<strong>基地址<em>*, 当冲突发生时, 使用某种方法为关键码 $K$ 产生一个新的散列地址序列, 称为*</em>探查序列</strong></li>
+<ul class="content-list"><li class="list-item">$d_0=h(K)$ 称为<strong>基地址</strong>, 当冲突发生时, 使用某种方法为关键码 $K$ 产生一个新的散列地址序列, 称为<strong>探查序列</strong></li></ul>
   - $d_i = d_0 + p(K,i) $, $i\in [M-1]$, 其中 $p$ 是探查函数
 
-<li>检索要遵循插入时同样的探查序列</li>
+<ul class="content-list"><li class="list-item">检索要遵循插入时同样的探查序列</li></ul>
   - 重复冲突解决过程
   - 找出在基位置没有找到的记录
-<li>插入和检索函数都假定每个关键码的探查序列中欧至少有一个存储位置是空的</li>
+<ul class="content-list"><li class="list-item">插入和检索函数都假定每个关键码的探查序列中欧至少有一个存储位置是空的</li></ul>
   - 也可以限制探查序列长度
 
 <strong>线性探查</strong>
-<li>$p(K,i) = i$</li>
-<li>产生的问题 : "聚集", 小聚集汇合成大聚集, 导致很长的探查序列</li>
-<li>改进 : $p(K,i) = i*c$, 但还是会有探查序列纠缠</li>
+<ul class="content-list"><li class="list-item">$p(K,i) = i$</li><li class="list-item">产生的问题 : "聚集", 小聚集汇合成大聚集, 导致很长的探查序列</li><li class="list-item">改进 : $p(K,i) = i*c$, 但还是会有探查序列纠缠</li></ul>
 
 <strong>二次探查</strong>
-<li>$p(K,2i-1) = i^2, p(K,2i) = -i^2$</li>
+<ul class="content-list"><li class="list-item">$p(K,2i-1) = i^2, p(K,2i) = -i^2$</li></ul>
 
 <div class="question-box">
     <span class="title">(2021 秋)</span>
@@ -222,41 +772,149 @@ $$ASL_{fail} = \frac{1}{7}(3+2+1+3+4+4+5) = \frac{22}{7}$$
 ___
 
 <strong>伪随机数序列探查</strong>
-<li>$p(K,i) = R(i-1)$, 其中 $R$ 是一个值从 $[M-1]$ 的伪随机数序列</li>
-<li>二次探查和伪随机数探查都能避免基本聚集</li>
-<li><strong>二级聚集</strong> : 两个关键码散列到同一个基地址, 还是得到同样的探查序列, 所产生的聚集</li>
+<ul class="content-list"><li class="list-item">$p(K,i) = R(i-1)$, 其中 $R$ 是一个值从 $[M-1]$ 的伪随机数序列</li><li class="list-item">二次探查和伪随机数探查都能避免基本聚集</li><li class="list-item"><strong>二级聚集</strong> : 两个关键码散列到同一个基地址, 还是得到同样的探查序列, 所产生的聚集</li></ul>
   - 避免方法 : 探查序列是原来关键码值的函数, 而不仅仅是基地址的函数
 
 <strong>双散列探查法</strong>
-<li>$p(K,i) = i\cdot h_2(K)$, 其中 $h_2(K)$ 是第二个散列函数</li>
-<li>$h_2(K)$ 必须于 $M$ 互素</li>
+<ul class="content-list"><li class="list-item">$p(K,i) = i\cdot h_2(K)$, 其中 $h_2(K)$ 是第二个散列函数</li><li class="list-item">$h_2(K)$ 必须于 $M$ 互素</li></ul>
   - 使发生冲突的同义词地址均匀de分布在整个表中
   - 否则可能造成同义词地址的循环计算
-<li>优点 : 无聚集, 无循环, 无二级聚集</li>
-<li>缺点 : 散列函数计算量大</li>
+<ul class="content-list"><li class="list-item">优点 : 无聚集, 无循环, 无二级聚集</li><li class="list-item">缺点 : 散列函数计算量大</li></ul>
 
 <h2>10.4 散列字典实现</h2>
 用散列表实现的字典
 
 <strong>插入</strong>
-<li>若表中基地址空间未被占用, 则插入记录</li>
-<li>若基地址的值与关键码相等, 则报告重复 (不允许重复记录)</li>
-<li>否则按设定的处理冲突方法去找下一个地址, 重复上述过程</li>
+<ul class="content-list"><li class="list-item">若表中基地址空间未被占用, 则插入记录</li><li class="list-item">若基地址的值与关键码相等, 则报告重复 (不允许重复记录)</li><li class="list-item">否则按设定的处理冲突方法去找下一个地址, 重复上述过程</li></ul>
 
 <strong>检索</strong>
-<li>若基地址中的值为空, 则找不到</li>
-<li>地址中的值与关键码相等, 则找到</li>
-<li>否则按设定的处理冲突方法去找下一个地址, 重复上述过程</li>
+<ul class="content-list"><li class="list-item">若基地址中的值为空, 则找不到</li><li class="list-item">地址中的值与关键码相等, 则找到</li><li class="list-item">否则按设定的处理冲突方法去找下一个地址, 重复上述过程</li></ul>
 
 <strong>删除</strong>
 两点需要考虑:
-<li>删除后, 该地址的记录是否会影响检索</li>
-<li>释放存储位置能为将来所用</li>
+<ul class="content-list"><li class="list-item">删除后, 该地址的记录是否会影响检索</li><li class="list-item">释放存储位置能为将来所用</li></ul>
   - 只有开散列方法可以真正删除, 空间重用
   - 闭散列方法都只能作标记, 不能真正删除, 空间未再次分配之前不可用
-<li><strong>墓碑</strong> : 用一个特殊的值表示删除</li>
+<ul class="content-list"><li class="list-item"><strong>墓碑</strong> : 用一个特殊的值表示删除</li></ul>
   - 不能将空单元与删除单元混淆 : 检索时遇到已删除标记还需要继续检索下去
-<li>删除操作与检索类似, 但是删除后地址标记为删除</li>
-<li>带墓碑的插入 : 可以插, 但是检索要继续, 防止插入两个相同的关键码</li></p>
+<ul class="content-list"><li class="list-item">删除操作与检索类似, 但是删除后地址标记为删除</li><li class="list-item">带墓碑的插入 : 可以插, 但是检索要继续, 防止插入两个相同的关键码</li></ul></p>
+            </div>
+        </div>
+    </main>
+    
+    
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>课程信息</h3>
+          <p>北京大学数据结构与算法A</p>
+          <p>2025年秋季学期</p>
+        </div>
+        <div class="footer-section">
+          <h3>快速链接</h3>
+          <ul class="footer-links">
+            <li><a href="https://dsa.openjudge.cn/">课程OJ</a></li>
+            <li><a href="https://pkuhub.cn/course/1830">PKUHUB</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>联系方式</h3>
+          <p>助教：ICUlizhi</p>
+          <p>邮箱：iculizhi@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 数据结构与算法A - PKU. All rights reserved.</p>
+      </div>
+    </footer>
+  
+    
+    <script>
+      
+    // 移动端菜单切换
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+    }
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // 导航栏滚动效果
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+      } else {
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // 代码块复制功能
+    document.querySelectorAll('.code-block').forEach(block => {
+      const button = document.createElement('button');
+      button.className = 'copy-button';
+      button.textContent = '复制';
+      button.addEventListener('click', () => {
+        const code = block.querySelector('code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          button.textContent = '已复制!';
+          setTimeout(() => {
+            button.textContent = '复制';
+          }, 2000);
+        });
+      });
+      block.appendChild(button);
+    });
+
+    // 添加CSS样式用于复制按钮
+    const style = document.createElement('style');
+    style.textContent = `
+      .code-block {
+        position: relative;
+      }
+      .copy-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+      }
+      .copy-button:hover {
+        background: #764ba2;
+        transform: translateY(-2px);
+      }
+    `;
+    document.head.appendChild(style);
+  
+    </script>
 </body>
 </html>

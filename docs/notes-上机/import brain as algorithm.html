@@ -5,83 +5,644 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>import brain as algorithm</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #24292e;
-            background-color: #fff;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            margin-top: 24px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            line-height: 1.25;
-        }
-        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        h3 { font-size: 1.25em; }
-        code {
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            background-color: rgba(27,31,35,0.05);
-            border-radius: 3px;
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-        }
-        pre {
-            padding: 16px;
-            overflow: auto;
-            font-size: 85%;
-            line-height: 1.45;
-            background-color: #f6f8fa;
-            border-radius: 6px;
-        }
-        pre code {
-            padding: 0;
-            background-color: transparent;
-        }
-        blockquote {
-            padding: 0 1em;
-            color: #6a737d;
-            border-left: 0.25em solid #dfe2e5;
-            margin: 16px 0;
-        }
-        table {
-            border-spacing: 0;
-            border-collapse: collapse;
-            margin: 16px 0;
-        }
-        table th, table td {
-            padding: 6px 13px;
-            border: 1px solid #dfe2e5;
-        }
-        table tr:nth-child(2n) {
-            background-color: #f6f8fa;
-        }
-        a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        img {
-            max-width: 100%;
-            box-sizing: content-box;
-        }
-        ul {
-            padding-left: 2em;
-        }
-        li {
-            margin: 0.25em 0;
-        }
+      
+    /* Enhanced Modern Styles for DSA Course Website */
+
+    /* CSS Variables for consistent theming */
+    :root {
+      --primary-color: #667eea;
+      --primary-dark: #764ba2;
+      --secondary-color: #f093fb;
+      --accent-color: #4facfe;
+      --success-color: #48bb78;
+      --warning-color: #ed8936;
+      --error-color: #f56565;
+      --info-color: #4299e1;
+      
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+      --glass-effect: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      
+      --text-primary: #2d3748;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      
+      --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 25px 50px rgba(0, 0, 0, 0.15);
+      --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+      
+      --border-radius: 12px;
+      --border-radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Advanced Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-gradient);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      height: 70px;
+    }
+
+    .nav-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4a5568;
+    }
+
+    .brand-link {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-icon {
+      font-size: 1.8rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #4a5568;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-link:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 220px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      padding: 0.5rem 0;
+      z-index: 1001;
+    }
+
+    .nav-item:hover .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-link {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      text-decoration: none;
+      color: #4a5568;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .dropdown-link:hover {
+      background: #f7fafc;
+      color: #667eea;
+      transform: translateX(5px);
+    }
+
+    .link-icon {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #4a5568;
+      transition: all 0.3s ease;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .content-wrapper {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 2rem 0;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    h1 { 
+      font-size: 2.5rem; 
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h2 { 
+      font-size: 2rem; 
+      color: #2d3748;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 0.5rem;
+      margin-top: 3rem;
+    }
+
+    h3 { 
+      font-size: 1.5rem; 
+      color: #4a5568;
+      margin-top: 2rem;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: #4a5568;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .link:hover {
+      color: #764ba2;
+      border-bottom-color: #667eea;
+    }
+
+    .inline-code {
+      background: #f7fafc;
+      color: #e53e3e;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.9em;
+      border: 1px solid #e2e8f0;
+    }
+
+    .code-block {
+      background: #1a202c;
+      border-radius: 12px;
+      margin: 2rem 0;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .code-header {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-bottom: 1px solid #4a5568;
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding: 1.5rem;
+      background: transparent;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+
+    .quote {
+      border-left: 4px solid #667eea;
+      background: #f7fafc;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #4a5568;
+    }
+
+    .content-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .list-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .list-item:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-item {
+      list-style: none;
+      padding: 0.8rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .task-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #667eea;
+    }
+
+    .task-item.completed {
+      opacity: 0.7;
+      text-decoration: line-through;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .data-table th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .data-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .data-table tr:hover {
+      background: #f7fafc;
+    }
+
+    .alert {
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      border-left: 4px solid;
+    }
+
+    .alert-note {
+      background: #ebf8ff;
+      border-left-color: #3182ce;
+      color: #2c5282;
+    }
+
+    .alert-warning {
+      background: #fed7d7;
+      border-left-color: #e53e3e;
+      color: #742a2a;
+    }
+
+    .alert-tip {
+      background: #f0fff4;
+      border-left-color: #38a169;
+      color: #22543d;
+    }
+
+    .divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      margin: 3rem 0;
+      border-radius: 2px;
+    }
+
+    .content-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      margin: 2rem 0;
+    }
+
+    .footer {
+      background: rgba(26, 32, 44, 0.95);
+      backdrop-filter: blur(10px);
+      color: #e2e8f0;
+      padding: 3rem 0 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #667eea;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #667eea;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid #4a5568;
+      margin-top: 2rem;
+      color: #a0aec0;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 1rem;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 2rem;
+        transition: left 0.3s ease;
+        gap: 1rem;
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .dropdown-content {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        padding-left: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .content-wrapper {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  
     </style>
 </head>
 <body>
-    <p>堆栈 : 
+    
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a href="index.html" class="brand-link">
+            <span class="brand-icon">🎓</span>
+            <span class="brand-text">数据结构与算法 A</span>
+          </a>
+        </div>
+        <div class="nav-menu">
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📚 课程资源</a>
+            <div class="dropdown-content">
+              <a href="https://dsa.openjudge.cn/" target="_blank" class="dropdown-link">
+                <span class="link-icon">🎯</span>课程OJ
+              </a>
+              <a href="https://www.icourse163.org/course/PKU-1002534001" target="_blank" class="dropdown-link">
+                <span class="link-icon">📖</span>MOOC课程
+              </a>
+              <a href="http://dsalgo.openjudge.cn/" target="_blank" class="dropdown-link">
+                <span class="link-icon">💻</span>MOOC OJ
+              </a>
+              <a href="https://pkuhub.cn/course/1830" target="_blank" class="dropdown-link">
+                <span class="link-icon">🏫</span>PKUHUB课程页
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📝 学习资料</a>
+            <div class="dropdown-content">
+              <a href="notes-上机.html" class="dropdown-link">
+                <span class="link-icon">⚙️</span>上机笔记
+              </a>
+              <a href="notes-理论-期中前.html" class="dropdown-link">
+                <span class="link-icon">📊</span>理论笔记(期中前)
+              </a>
+              <a href="notes-理论-期中后.html" class="dropdown-link">
+                <span class="link-icon">📈</span>理论笔记(期中后)
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">🔧 助教工具</a>
+            <div class="dropdown-content">
+              <a href="ta-dashboard.html" class="dropdown-link">
+                <span class="link-icon">📊</span>助教工作台
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📋</span>作业管理
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📊</span>成绩统计
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">💬</span>答疑记录
+              </a>
+              <a href="#" class="dropdown-link">
+                <span class="link-icon">📅</span>课程安排
+              </a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link">📚 往年资源</a>
+            <div class="dropdown-content">
+              <a href="往年资料/" class="dropdown-link">
+                <span class="link-icon">📁</span>往年资料
+              </a>
+              <a href="往年资料/" class="dropdown-link">
+                <span class="link-icon">📝</span>往年题解
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="README.html" class="nav-link">ℹ️ 关于</a>
+          </div>
+        </div>
+        <div class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+  
+    
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="content-wrapper">
+                <p>堆栈 : 
 字符串 : KMP算法
 二叉树 : 
 树 : 
@@ -89,10 +650,8 @@
 排序 : 归并
 检索 : 
 
-<li>所有的算法只包含尽可能简化的模版, 不记录数据, 但会做预处理</li>
-
-1. KMP算法
-<pre><code>cpp
+<ul class="content-list"><li class="list-item">所有的算法只包含尽可能简化的模版, 不记录数据, 但会做预处理</li><li class="list-item">KMP算法</li></ul>
+``<code class="inline-code">cpp
 //s[1] 对齐第一个字符, s[n] 是最后一个字符, next[i]是第i个字符的前缀后缀最长匹配长度
 next[1] = 0; 
 for (int i=2,j=0;i<=n;i++){
@@ -100,10 +659,10 @@ for (int i=2,j=0;i<=n;i++){
     if (s[i]==s[j+1])j++; // 找到了一个匹配的
     next[i] = j; // 保存匹配长度
 }
-</code></pre>
+</code>`<code class="inline-code">
 
-2. dijkstra算法 (用堆实现)
-<pre><code>cpp
+<ul class="content-list"><li class="list-item">dijkstra算法 (用堆实现)</li></ul>
+</code>`<code class="inline-code">cpp
 int w[maxn][maxn]; //已memset(w, 0x3f, sizeof(w)),且连边的数据已加载
 int dis[maxn],vis[maxn]; // dis最短距离, vis是否访问
 int n; // 顶点数, 从1开始
@@ -125,10 +684,10 @@ void dijkstra(int s){
 		}
 	}
 }
-</code></pre>
+</code>`<code class="inline-code">
 
-3. floyd算法
-<pre><code>cpp
+<ul class="content-list"><li class="list-item">floyd算法</li></ul>
+</code>`<code class="inline-code">cpp
 void floyd(){// g是邻接矩阵, 已经memset(g, 0x3f, sizeof(g))过且已经加载了边的数据
 	for(int i=1;i<=n;i++) g[i][i]=0;
 	for(int k=1;k<=n;k++){
@@ -140,11 +699,11 @@ void floyd(){// g是邻接矩阵, 已经memset(g, 0x3f, sizeof(g))过且已经�
 		}
 	}
 }
-</code></pre>
+</code>`<code class="inline-code">
 
 
-4. Kruskal算法
-<pre><code>cpp
+<ul class="content-list"><li class="list-item">Kruskal算法</li></ul>
+</code>`<code class="inline-code">cpp
 struct Edge {
     int u, v, w;  // u, v: 两个节点，w: 边的权重
 };
@@ -168,10 +727,10 @@ void Kruskal(){
 		}
     }
 }
-</code></pre>
+</code>`<code class="inline-code">
 
-5. 归并排序
-<pre><code>cpp
+<ul class="content-list"><li class="list-item">归并排序</li></ul>
+</code>`<code class="inline-code">cpp
 void merge_sort(int l, int r){
     if (l == r) return; // 递归边界
     int mid = (l + r) >> 1; // 取中点
@@ -186,10 +745,10 @@ void merge_sort(int l, int r){
     while (j <= r) b[k++] = a[j++];
     for (int i = l; i <= r; i++) a[i] = b[i - l]; // 将合并后的数组复制回原数组
 }
-</code></pre>
+</code>`<code class="inline-code">
 
-6. 二分法
-<pre><code>cpp
+<ul class="content-list"><li class="list-item">二分法</li></ul>
+</code>`<code class="inline-code">cpp
 bool check(int x) {}// 判断 x 是否满足条件
 int binarySearch(int left, int right) {
 	if (check(right)) return right; // 如果 right 满足条件，直接返回 (因为处理不了)
@@ -200,11 +759,129 @@ int binarySearch(int left, int right) {
     }
     return left - 1; // 返回符合条件的最大值
 }
-</code></pre>
+</code>`<code class="inline-code">
 
 Trick1:
-<pre><code>cpp
+</code>`<code class="inline-code">cpp
 ios::sync_with_stdio(false); // 关闭输入输出流的同步，加快cincout速度
-</code></pre></p>
+</code>``</p>
+            </div>
+        </div>
+    </main>
+    
+    
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>课程信息</h3>
+          <p>北京大学数据结构与算法A</p>
+          <p>2025年秋季学期</p>
+        </div>
+        <div class="footer-section">
+          <h3>快速链接</h3>
+          <ul class="footer-links">
+            <li><a href="https://dsa.openjudge.cn/">课程OJ</a></li>
+            <li><a href="https://pkuhub.cn/course/1830">PKUHUB</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>联系方式</h3>
+          <p>助教：ICUlizhi</p>
+          <p>邮箱：iculizhi@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 数据结构与算法A - PKU. All rights reserved.</p>
+      </div>
+    </footer>
+  
+    
+    <script>
+      
+    // 移动端菜单切换
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+    }
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // 导航栏滚动效果
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+      } else {
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // 代码块复制功能
+    document.querySelectorAll('.code-block').forEach(block => {
+      const button = document.createElement('button');
+      button.className = 'copy-button';
+      button.textContent = '复制';
+      button.addEventListener('click', () => {
+        const code = block.querySelector('code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          button.textContent = '已复制!';
+          setTimeout(() => {
+            button.textContent = '复制';
+          }, 2000);
+        });
+      });
+      block.appendChild(button);
+    });
+
+    // 添加CSS样式用于复制按钮
+    const style = document.createElement('style');
+    style.textContent = `
+      .code-block {
+        position: relative;
+      }
+      .copy-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+      }
+      .copy-button:hover {
+        background: #764ba2;
+        transform: translateY(-2px);
+      }
+    `;
+    document.head.appendChild(style);
+  
+    </script>
 </body>
 </html>
