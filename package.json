@@ -1,0 +1,26 @@
+{
+  "name": "dsa-pku-pages",
+  "version": "1.0.0",
+  "description": "Data Structure and Algorithm A - PKU GitHub Pages",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "node build.js && cd docs && python -m http.server 8000",
+    "deploy": "node build.js && echo 'Build completed. Commit and push to deploy to GitHub Pages.'"
+  },
+  "keywords": [
+    "github-pages",
+    "markdown",
+    "html",
+    "pku",
+    "data-structure",
+    "algorithm"
+  ],
+  "author": "ICUlizhi",
+  "license": "MIT",
+  "devDependencies": {
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.7",
+    "markdown-it-table-of-contents": "^0.6.0"
+  }
+}

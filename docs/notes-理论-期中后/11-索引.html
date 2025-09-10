@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11-索引</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+        }
+        blockquote {
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+            margin: 16px 0;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        table th, table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            box-sizing: content-box;
+        }
+        ul {
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.25em 0;
+        }
+    </style>
+</head>
+<body>
+    <p>---
+id: notes
+---
+@import "/.crossnote/notes.less";
+
+<h1>11 索引</h1>
+<h2>11.1 定义</h2>
+<li>主码 : 数据库中每条记录的唯一标识</li>
+<li>辅码 : 数据库中可出现重复值的码（属性）</li>
+  - 辅码索引把一个辅码值与具有这个辅码值的多条记录的主码值关联起来
+  - 多数检索都是利用辅码索引完成的
+<li>索引 : (key, pointer)</li>
+<li>索引文件：用于记录这种联系的文件</li>
+  - 稠密索引 : 对每个记录建立一个索引项
+    - 主文件不需按关键码次序排列
+  - 稀疏索引 : 对一组记录建立一个索引
+    - 主文件必须按照关键码次序存放
+
+<h3>线性索引</h3>
+按照索引码值的顺序进行排序的文件
+<li>优缺点</li>
+  - 可对变长的数据库记录访问
+  - 支持对数据的高效检索
+    - 二分检索
+  - 线性索引太大, 存储在磁盘中
+    - 一次检索可能多次访问磁盘, 影响检索的效率
+    - 使用二级线性索引
+
+<div class="question-box">
+    <span class="title">(2021 秋)</span>
+    <p>设磁盘块大小是 <b>1024</b> 字节, 每个索引项需要 <b>8</b> 个字节. 一个包含 <b>25000</b> 条记录的数据文件, 若采用二级索引, 则一级索引文件和二级索引文件共需占用 _______ 磁盘块.</p>
+</div>
+
+<strong>答案:</strong> $\lceil \frac{25000}{1024/8}\rceil+\lceil \frac{25000}{(1024/8)^2}\rceil = 198$
+___
+
+<h3>静态索引</h3>
+<li>索引结构在文件创建时生成</li>
+<li>一旦生成就固定下来, 在系统运行(例如插入和删除记录)</li>
+过程中, 索引结构不做改变
+<li>只有当文件再组织时才允许改变索引结构</li>
+> 多分树 : 大大减少访问外存的次数
+
+<h3>倒排索引</h3>
+<li>按属性值建立索引, 索引表中的每一项包括 (attr,  ptrList):</li>
+ - 一个属性值
+ - 具有该属性值的各关键码或者记录地址
+<li>优缺点</li>
+  - 支持基于属性的高效检索
+  - 花费储存倒排表的代价, 降低更新的效率
+<h2>11.2 动态索引 (B树)</h2>
+动态索引 : 文件创建时生成, 结构随着插入, 删除等操作而改变, 以保持最佳的检索性能, 例如B树和B+树
+<h3>B树</h3>
+<strong>B树的定义</strong>
+$m$ 阶 $B$ 树是一棵 $m$ 路查找树, 或者为空, 或者:
+<li>下界 : 根节点至少有两个子树, 其他非叶节点至少有 $\lceil m/2\rceil$ 个子树</li>
+<li>上界 : 每个节点至多有 $m$ 个子树</li>
+<li>有 $k$ 个子树的节点有 $k-1$ 个关键码</li>
+<li>所有叶节点都在同一层, 有 $\lceil m/2\rceil - 1$ 到 $m-1$ 个关键码</li>
+
+$B$ 树的一个包含 $j$ 个关键码, $j+1$ 个指针的节点的一般形式为:
+<li>$P_0, K_1, P_1, K_2, P_2, \dots, K_j, P_j$</li>
+  - $K_i$ 是关键码值, $K_1 < K_2 < \dots < K_j$
+  - $P_i$ 是指向包括 $K_i$ 到 $K_{i+1}$ 的子树的指针
+
+每个关键码对应一个记录指针域
+
+<strong>B树的特点</strong>
+<li>访问局部性</li>
+<li>高度平衡</li>
+<li>父节点关键码值是子节点的分界</li>
+<li>节点关键码至少一定比例是满的</li>
+  - 改进空间利用率, 减少检索, 更新操作的I/O次数
+
+> 课件上带过了一个性质 : 外部指针数等于关键码数加一, 这个性质的本质是:
+> <strong>满 k 叉树 Green 公式</strong> : 
+> $$\sum_{外部节点}1=1+\sum_{内部节点}(节点子树数量-1)$$
+> 应用到 B 树, 每个节点的关键码数恰好是节点子树数量-1, 所以外部指针数等于关键码数加一.
+> 这个公式实际上是 Green 公式的一个离散形式
+> - 节点子树数量-1 是节点的通量, 因为节点出度是子树数量, 入度是1
+> - 外 = 1 + 内, 多出来的 1 是根节点的入度, 这保证了树成为一个闭区域
+> - 发明人xj🤓
+
+
+<strong>B树的查找</strong> : 从根节点开始, 逐层查找, 如果指向空节点, 则查找失败
+
+<strong>B树的检索长度</strong> : 假如高度是 $h$, 则自顶向下检索到叶节点的过程可能需要 $h$ 次读盘, 最多 $h+1$ 访外
+
+<div class="question-box">
+    <span class="title">(2016 秋)</span>
+    <p>具有 <b>10000</b> 个关键码的 <b>16</b> 阶 B 树的查找路径长度（从根到叶节点访问 B 树索引块的次数）不会小于____?</p> <br/>
+</div>
+    
+<strong>解析:</strong> 使用满 $m$ 叉树的Green公式, 自然有 $16^3-1<10000\leq 16^4-1$, 所以叶子节点在第三层, 访问 B 树索引块次数不会小于 $3$ 次 (根一次, 第一层第二层各一次)
+<strong>答案:</strong> 3
+___
+<strong>B树的插入</strong>
+<li>找到最底层插入</li>
+<li>若溢出, 分裂节点, 中间关键码连同新指针插入父节点</li>
+<li>若父节点溢出, 继续分裂, 可能一直到根节点(则树升高一层)</li>
+
+> 节点分裂方法, 假如插入后节点状态为 $p=(m,A_0,K_1,A_1,\dots,K_m,A_m)$, 则拆分成两个节点 $p=(\lceil m/2\rceil-1,A_0,K_1,A_1,\dots,K_{\lceil m/2\rceil-1},A_{\lceil m/2\rceil-1})$ 和 $q=(m-\lceil m/2\rceil,A_{\lceil m/2\rceil},K_{\lceil m/2\rceil+1},A_{\lceil m/2\rceil+1},\dots,K_m,A_m)$, 中间关键码 $K_{\lceil m/2\rceil}$ 与指向新节点 $q$ 的指针插入父节点
+
+<strong>B树的删除</strong>
+<li>删除的关键码在叶节点</li>
+  - 若删除后节点关键码数小于 $\lceil m/2\rceil-1$
+    - 若兄弟节点关键码数大于 $\lceil m/2\rceil-1$, 则从兄弟节点借关键码 (父节点分界关键码也要调整)
+    - 若兄弟节点关键码数等于 $\lceil m/2\rceil-1$, 则合并节点
+  - 若删除后节点关键码数不小于 $\lceil m/2\rceil-1$, 则直接删除
+<li>删除的关键码不在叶节点层</li>
+  - 先把此关键码替换为其后继关键码, 再删除该关键码
+
+<h3>B+树</h3>
+B树的变种, 所有关键码都在叶节点, 各层节点中的关键码是下一层相应节点中最大关键码(或最小关键码)的拷贝
+
+<strong>B+树的特点</strong>
+<li>每个节点子节点数量在 $[\lceil m/2\rceil, m]$ , 根节点可以只有两个子节点 (空, 独根除外) 这一点与B树相同</li>
+<li>B+树和B树的差异</li>
+  - B+树中 $n$ 棵子树的结点中含有 $n$ 个关键码, 而B树中 $n$ 棵子树的结点中含有 $n-1$ 个关键码
+  - B+树叶子结点包含了完整的索引的信息, 而B树所有结点共同构成全部索引信息
+  - B+树所有的非叶结点可以看成是高层索引, 结点中仅含有其子树中最大(或最小)关键码
+
+<strong>B+树的查找</strong> : 逐层找
+  - b+树叶节点一般链接起来, 形成双链表, 便于范围查询, 需要的话每一层节点也都可以这样链接
+
+<strong>B+树的插入</strong> : 与B树类似, 左 $\lceil m/2\rceil$, 右 $\lfloor m/2\rfloor$, 注意上层关键码的维护
+> 两棵树分裂时都是左节点 $\lceil m/2\rceil$ 个子节点
+
+<strong>B+树的删除</strong> : 与B树类似, 但被删除关键码的上层副本可以选择保留, 作为"分界关键码"存在
+
+<h3>性能分析</h3>
+m 阶 B树, 关键码为 $N$ 个, 内部节点数为 $p$, 则存取次数 $k$ 满足
+$$k\leq 1+\log_{\lceil\frac{m}{2}\rceil}\left(\frac{N+1}{2}\right)$$
+> B-树就是B树,这个公式的证明是 2021 考题, 如果使用满 $m$ 叉树的 Green 公式, 我们有:
+> $$n+1\ge 2\lceil \frac{m}{2}\rceil^{k-1}$$
+> 是不是秒出答案? 但是考试不能这么写, 需要拆开求和装个样子 Green 公式的作用是帮助验证答案和提高insight.
+> 更深的insight : 只要树满, 逐层算节点数目的时候等比数列的分母一定能消掉, 否则求对数没法这么简洁
+
+插入一个关键码的平均分裂节点次数为
+$$s=\frac{p-1}{N-1}\leq \frac{N-1}{(\lceil m/2\rceil-1)(N-1)} = \frac{1}{\lceil m/2\rceil-1}$$
+
+
+<h2>11.3 红黑树</h2>
+<h3>定义</h3>
+BST的染色版:
+<li>每个节点要么是红色, 要么是黑色</li>
+<li>根节点, 叶节点是黑色</li>
+<li>父子节点不能同时为红色</li>
+<li>任意结点到叶节点的路径上黑色结点数相同</li>
+
+<strong>节点的阶</strong>
+<li>即从该节点到叶节点的黑色节点数, 不包括该节点本身, 包括叶节点</li>
+<li>叶节点的阶为0, 根节点的阶为该树的阶</li>
+
+<strong>红黑树的性质</strong>
+<li>满二叉树 : 空树叶也看作节点</li>
+<li>$k$ 阶红黑树树高 $\in [k+1,2k+1]$</li>
+<li>$k$ 阶红黑树内部节点数最少是 $2^k-1$</li>
+<li>$n$ 个内部节点的红黑树树高最大是 $2\log_2(n+1)+1$</li>
+<li>红黑树检索, 插入, 删除的最差时间都是 $O(\log n)$</li>
+
+<h3>操作</h3>
+<strong>左旋与右旋</strong> ->左旋(x), <-右旋(y)
+<pre><code>
+    x              y
+   / \            / \
+  a   y    <->   x   c
+     / \        / \  
+    b   c      a   b 
+</code></pre>
+保留BST的性质, 旋转后的树的中序遍历结果不变 $(a<A<b<B<c)$
+
+<strong>红黑树的插入</strong>
+<li>插入节点为红色</li>
+<li>若父节点为黑色, 不违反性质, <strong>直接插入</strong></li>
+<li>若父节点为红色, 则祖父黑, 不妨设父节点在左, 叔节点在右 </li>
+  - 如果没有叔节点, 则视其为黑色
+  - 叔节点为红色, 则将父节点, 叔节点染黑, 祖父节点染红, <strong>递归</strong>调整祖父节点 (若祖父节点为根节点, 则不必染红)
+  - 叔节点为黑色, 且当前节点为右子节点, 则左旋父节点, <strong>转化</strong>为左子节点的情况
+  - 叔节点为黑色, 且当前节点为左子节点, 则右旋祖父节点, 旋转前的祖父节点染红, 父节点染黑, <strong>结束</strong>
+<li>时间复杂度 $O(\log n)$, 因为递归调整的次数不超过树高的一半</li>
+
+<strong>BST的删除</strong>
+<li>没有儿子, 直接删除</li>
+<li>有一个儿子, 用儿子替代</li>
+<li>有两个儿子, 找到右子树的最小节点(即从右子树根出发递归找左儿子), 用该节点替代, 再删除该节点 (该节点最多只有一个右儿子) (或者找左子树的最大节点)</li>
+
+<strong>红黑树的删除</strong> : 不考, 懒得写了</p>
+</body>
+</html>

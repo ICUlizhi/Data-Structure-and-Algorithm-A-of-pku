@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-检索</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+        }
+        blockquote {
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+            margin: 16px 0;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        table th, table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            box-sizing: content-box;
+        }
+        ul {
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.25em 0;
+        }
+    </style>
+</head>
+<body>
+    <p>---
+id: notes
+---
+@import "/.crossnote/notes.less";
+
+<h1>10 检索</h1>
+<h2>10.1 定义</h2>
+<li>平均检索长度 (ASL)</li>
+$$ASL=\sum_{i=1}^n P_iC_i$$
+> 注意概率分布的隐含条件 $\sum p = 1$
+
+<h3>线性表检索</h3>
+<strong>"监视哨"顺序检索算法</strong>
+<li>即为在待检索的数组末尾加上 $a[n]=key$, 以节省遍历时的数组越界检查, 复杂度还是 $O(n)$</li>
+<li>性能分析: (假设检索成功率是 $p$)</li>
+$$\frac{n+1}{2}<ASL=\frac{n+1}{2}p+(n+1)(1-p)<n+1$$
+<li>优点 : 插入元素可以直接加在末尾</li>
+<li>缺点 : 检索时间太长 $\Theta(n)$</li>
+
+<strong>二分检索法</strong>
+<li>就是二分法, 需要先对数据排序</li>
+<li>成功的平均检索长度</li>
+$$ASL_{succ} = \frac{1}{n}\sum_{i=1}^ji\cdot 2^{i-1} = \frac{n+1}{n}\log_2(n+1)-1\approx \log_2(n+1)-1$$
+<li>最大检索长度 $\lceil\log_1(n+1)\rceil$, 失败检索长度 $\lceil\log_2(n+1)\rceil$ 或 $\lfloor\log_2(n+1)\rfloor$</li>
+<li>优点: 平均与最大检索长度相近, 检索速度快</li>
+<li>缺点: 要排序, 顺序存储, 不易更新(插/删)</li>
+
+<strong>分块检索</strong>
+<li>按块有序, 块内无序, 是顺序与二分法的折衷</li>
+<li>$n$ 个元素, $b$ 个块 , 每个块至多 $s$ 个元素</li>
+
+
+
+$$\begin{align<em>}ASL&=ASL_b+ASL_w\\&\approx\log_2 (b+1)-1+\frac{s+1}{2}\end{align</em>}$$
+
+<li>当大量插入/删除时, 或结点分布不均匀时, 速度下降</li>
+
+<h3>集合检索</h3>
+<li>对于密集型集合, 用位向量表示, $\{0,1\}$ 表示是否有这个元素</li>
+  - 用 ulong 存, 每个存32个位
+  - 位运算模拟集合交并
+
+<h3>散列表</h3>
+
+<li><strong>负载因子</strong> $\alpha = $ 填入表中的结点 $n/$ 散列表空间大小 $m$</li>
+<li><strong>冲突</strong> : 不同关键码计算出了相同的散列地址</li>
+  - 现实中不冲突的散列函数极少存在
+  - <strong>同义词</strong> : 产生冲突的两个关键码
+
+<h2>10.2 散列函数选取</h2>
+$$Address = Hash(Key)$$
+<li>运算简单, 值域在表长范围内, 尽可能单射</li>
+
+<strong>常用散列函数</strong>
+<li><strong>除余法</strong> : $hash(key) = key/M$, 其中 $M$ 是一个接近散列长度的质数</li>
+  - 缺点 : 连续的关键码映射成连续的散列值, 占据连续数组单元, 可能导致性能降低
+<li><strong>乘余取整法</strong> : $hash(key) = \lfloor n\{Akey\}\rfloor$, 其中 $A\in (0,1)$</li>
+  - 若地址空间为 $p$, 就取 $n=2^p$, 则地址恰是小数点后 $p$ 位
+  - $A$ 可以取任何值, 与待排序的数据特征有关, 一般取黄金分割最理想
+<li><strong>平方取中法</strong> : 先求平方, 再取其中几位或其组合作为地址</li>
+<li><strong>数字分析法</strong> : 对 $n$ 个 $d$ 位数, 每一位可能有 $r$ 种不同的符号, 在各位上出现频率不一定相同. 可根据散列表大小, 选取期中分布均匀的若干位作为地址.</li>
+  - 这一方法完全依赖于关键码集合的性质
+> 各位数字中符号分布的均匀度 $\lambda_k$
+> $$\lambda_k = \sum_{i=1}^r(\alpha_i^k - n/r)^2$$
+> - $\alpha_i^k$ : 第 $i$ 个符号在第 $k$ 位上出现的次数
+> - $n/r$ : 各种符号在 $n$ 个数中均匀出现的期望值
+> - $\lambda_k$ 越小, 说明越均匀
+<li><strong>基数转换法</strong> : 把关键码看成是另一进制上的数, 再把它转换成原来进制上的数, 取其中若干位作为散列地址</li>
+  - 一般取大于原来基数的数, 且互素
+<li><strong>折叠法</strong> : 将关键码分割成几部分, 将其叠加 (舍去进位) 作为散列地址</li>
+  - 移位叠加 : 把各部分的最后一位对齐相加
+  - 分界叠加 : 各部分不折断, 来回折叠对齐相加
+  - 适用于长关键码
+<li><strong>ELFhash字符串散列函数</strong> : </li>
+  - 长字符串和短字符串都很有效
+  - 字符串中每个字符都有同样的作用
+  - 对于散列表中的位置不可能产生不平均的分布
+<pre><code>
+int ELFhash(char* key) {
+  unsigned long h = 0;
+  while(*key) {
+    h = (h << 4) + *key++;
+    unsigned long g = h & 0xF0000000L;
+    if (g) h ^= g >> 24;
+    h &= ~g;
+  }
+  return h % M;
+}
+</code></pre>
+
+<h2>10.3  解决冲突</h2>
+<h3>开散列方法</h3>
+
+<strong>拉链法</strong> : 适用于内存
+<li>把散列表中的每个槽定义为一个链表的表头, 散列到特定槽的所有记录都放到这个槽的链表中</li>
+  - 同义词表可以根据输入, 访问频率, 值的顺序组织
+<li>优点 : 简单, 适用于大量数据, 可取 $\alpha\ge 1$, 结点较大时效果好</li>
+<li>缺点 : 在磁盘上会产生大量访问开销</li>
+
+<strong>桶式散列</strong> : 适用于磁盘
+> 没啥意思, 感觉不会考
+
+<h3>闭散列方法</h3>
+
+<li>$d_0=h(K)$ 称为<strong>基地址<em>*, 当冲突发生时, 使用某种方法为关键码 $K$ 产生一个新的散列地址序列, 称为*</em>探查序列</strong></li>
+  - $d_i = d_0 + p(K,i) $, $i\in [M-1]$, 其中 $p$ 是探查函数
+
+<li>检索要遵循插入时同样的探查序列</li>
+  - 重复冲突解决过程
+  - 找出在基位置没有找到的记录
+<li>插入和检索函数都假定每个关键码的探查序列中欧至少有一个存储位置是空的</li>
+  - 也可以限制探查序列长度
+
+<strong>线性探查</strong>
+<li>$p(K,i) = i$</li>
+<li>产生的问题 : "聚集", 小聚集汇合成大聚集, 导致很长的探查序列</li>
+<li>改进 : $p(K,i) = i*c$, 但还是会有探查序列纠缠</li>
+
+<strong>二次探查</strong>
+<li>$p(K,2i-1) = i^2, p(K,2i) = -i^2$</li>
+
+<div class="question-box">
+    <span class="title">(2021 秋)</span>
+    <p>将关键字序列 <b>7、8、30、11、18、9、14</b> 散列存储到散列表中. 散列表是一个下标从 <b>0</b> 开始的一维数组, 散列函数为: <b>H(key) = (key * 5) MOD 7 </b>, 处理冲突采用二次探测法, 要求装填(载)因子为0.7.</br>
+<b>(1)</b> 请画出所构造的散列表.<br/>
+<b>(2)</b> 计算等概率情况下查找成功和查找失败的平均查找长度.</p> <br/>
+</div>
+    
+<strong>(1)</strong> 数组长度 $L = 7/0.7 = 10$, 这里很有意思的一点, 就是不冲突的话只会在长为 $10$ 的数组的前 $7$ 个位置上储存, 这意味着 hash 选取的 M 未必是散列表大小.
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|---|---|
+| 7 |  14| | 30 | 9 | 8 | 11 | 18 |  |  |
+
+<strong>(2)</strong>  $ASL_{succ}$ : 将 $7, 8, 30, 11, 18, 9, 14$ 带入 key 去查找
+$$ASL_{succ} = \frac{1}{7}(1+1+1+1+2+2+2) = \frac{10}{7}$$
+$ASL_{fail}$ : 实际上是在 $|\mathbb{N}| \to +\infty$ 时是自然地等概率选择模 $7$ 剩余系, 可以选 $0, 1, 2, 3, 4, 5, 6$ 代入 key , 因为他们都一定失败.
+$$ASL_{fail} = \frac{1}{7}(3+2+1+3+4+4+5) = \frac{22}{7}$$
+
+___
+
+<strong>伪随机数序列探查</strong>
+<li>$p(K,i) = R(i-1)$, 其中 $R$ 是一个值从 $[M-1]$ 的伪随机数序列</li>
+<li>二次探查和伪随机数探查都能避免基本聚集</li>
+<li><strong>二级聚集</strong> : 两个关键码散列到同一个基地址, 还是得到同样的探查序列, 所产生的聚集</li>
+  - 避免方法 : 探查序列是原来关键码值的函数, 而不仅仅是基地址的函数
+
+<strong>双散列探查法</strong>
+<li>$p(K,i) = i\cdot h_2(K)$, 其中 $h_2(K)$ 是第二个散列函数</li>
+<li>$h_2(K)$ 必须于 $M$ 互素</li>
+  - 使发生冲突的同义词地址均匀de分布在整个表中
+  - 否则可能造成同义词地址的循环计算
+<li>优点 : 无聚集, 无循环, 无二级聚集</li>
+<li>缺点 : 散列函数计算量大</li>
+
+<h2>10.4 散列字典实现</h2>
+用散列表实现的字典
+
+<strong>插入</strong>
+<li>若表中基地址空间未被占用, 则插入记录</li>
+<li>若基地址的值与关键码相等, 则报告重复 (不允许重复记录)</li>
+<li>否则按设定的处理冲突方法去找下一个地址, 重复上述过程</li>
+
+<strong>检索</strong>
+<li>若基地址中的值为空, 则找不到</li>
+<li>地址中的值与关键码相等, 则找到</li>
+<li>否则按设定的处理冲突方法去找下一个地址, 重复上述过程</li>
+
+<strong>删除</strong>
+两点需要考虑:
+<li>删除后, 该地址的记录是否会影响检索</li>
+<li>释放存储位置能为将来所用</li>
+  - 只有开散列方法可以真正删除, 空间重用
+  - 闭散列方法都只能作标记, 不能真正删除, 空间未再次分配之前不可用
+<li><strong>墓碑</strong> : 用一个特殊的值表示删除</li>
+  - 不能将空单元与删除单元混淆 : 检索时遇到已删除标记还需要继续检索下去
+<li>删除操作与检索类似, 但是删除后地址标记为删除</li>
+<li>带墓碑的插入 : 可以插, 但是检索要继续, 防止插入两个相同的关键码</li></p>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12-高级数据结构</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+        }
+        blockquote {
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+            margin: 16px 0;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        table th, table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            box-sizing: content-box;
+        }
+        ul {
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.25em 0;
+        }
+    </style>
+</head>
+<body>
+    <p>---
+id: notes
+---
+@import "/.crossnote/notes.less";
+
+<h1>12 高级数据结构</h1>
+<h2>12.1 多维数组和稀疏矩阵</h2>
+
+<h3>多维数组</h3>
+行优先顺序: 先排最右下标, 从右到左, 最后排最左下标
+列优先顺序: 先排最左下标, 从左向右, 最后排最右下标
+对于行优先顺序:
+$$loc(A[j_0,\dots,j_{n-1}])=loc(A[0,...,0])+d[\sum_{i=0}^{n-2}j_i\prod_{k=i+1}^{n-1}d_k+j_{n-1}]$$
+<h3>特殊矩阵</h3>
+<strong>对称矩阵/三角矩阵</strong> 
+<li>只存上三角或者下三角</li>
+
+<strong>稀疏矩阵</strong> 
+<li>三元组表示法 : 行数 $M$, 列数 $N$, 非零元素个数 $T$, $\{(i,j,a_{ij})|a_{ij}\neq 0\}$</li>
+<li>十字链表 : 行链表头指针数组, 列链表头指针数组, $\{(i,j,a_{ij},<em>\text{nextcol},</em>\text{nextrow})\}$</li>
+<li><strong>CSR</strong> (压缩稀疏矩阵表示) : 行指针数组, 列索引数组, 非零元素数组</li>
+  - 每一行对应列索引数组的一个区间, 该区间内的元素为矩阵该行非零元素的列索引, 行指针指向该区间的起始位置, 列索引与非零元素数组的下标对齐
+
+<h2>12.2 广义表</h2>
+对于<strong>广义表</strong> $L=(x_0,\dots,x_{n-1})$
+  - $x_i$ 可以是单个元素 (即原子 atom), 也可以是广义表 (即子表 sublist)
+  - 广义表深度 : 递归定义, 原子的深度为0, 非原子的深度为其元素的最大深度加1
+  - 表头 $x_0$, 表尾 $x_{1:n-1}$
+
+<div class="question-box">
+  <span class="title">(2016 秋)</span>
+    <p>已知广义表 <b>C=(c, (d, A), B, e)</b>，则: </p>
+    <p>1. 广义表 <b>C</b> 的深度为 _______. </p>
+    <p>2. <b>tail(head(tail(C)))</b> 的运算结果为 _______. </p>
+</div>
+
+<strong>答案</strong> : 2, (A)
+<strong>解析</strong> : <pre><code>head()</code></pre> 返回元素或者作为元素的子表, 这取决于第一个元素是什么. 但 <pre><code>tail()</code></pre> 一定返回子表即便表中只有一个元素或者一个子表, 要打括号.
+
+<div class="question-box">
+    <span class="title">(2021 秋)</span>
+    <p>假设广义表 <b>P=(L:(a, b, Lz), L₂:(L, b, c), L₃:(c, d, Lz))</b></p><br>
+    <p><b>(1)</b> 画出图形表示:</p><br>
+    <p><b>(2)</b> 该表的深度是多少?</p><br>
+    <p><b>(3)</b> 使用头尾 (<b>Head()</b>, <b>Tail()</b>) 运算找出 <b>d</b> 元素.</p>
+</div>
+
+<strong>解析</strong> :
+(1) 广义表的图形表示一个元素一个节点, 一个子表一个节点, 用指针连接
+(2) 大胆填正无穷
+(3) 第2个 <pre><code>head()</code></pre> 是为了取出 $L_3$
+<strong>答案</strong> :  (1) 
+<img src = "../image/12-1.png" width = 300> 
+(2) $+\infty$
+(3) <pre><code>head(tail(head(tail(tail(P)))))</code></pre>
+___
+
+<h3>广义表的类型</h3>
+<li><strong>纯表</strong> (pure list) </li>
+  - 从根节点到任何叶节点只有一条路径
+  - 任何元素 (原子, 子表) 只能出现一次
+<li><strong>可重入表(再入表)</strong> (reentrant list)</li>
+  - 任何元素可以出现多次
+  - 对应一个DAG
+<li><strong>循环表(递归表)</strong> (circular list)</li>
+  - 包含回路, 深度无穷大
+
+$$图\supseteq再入表\supseteq纯表(树)\supseteq 线性表$$
+
+> 应用: Lisp语言中的S表达式, 函数调用关系, 内存引用关系
+<h3>广义表的ADT</h3>
+<pre><code>cpp
+struct TreeNode {
+    bool isAtom;       // true: 原子, false: 子表
+    union {
+        char atom;     // 原子值
+        TreeNode* sublist; // 子表指针
+    };
+    TreeNode* sibling;  // 指向同层兄弟节点
+};
+</code></pre>
+> 为什么广义表要有头结点? 否则删除结点必须进行链调整, 增加头指针可以简化删除, 插入操作. 
+>
+> 头指针tag可以是-1, value为空. 只有指向第一个结点的指针
+
+<h2>12.3 字符树</h2>
+本节只做了解
+
+以存储字符串集合 ["bear", "bell", "bid", "bull", "buy", "sell", "stock", "stop"] 为例
+<pre><code>
+前缀trie
+          (root)
+         /  |   \
+        b   s    ...
+       /|    \
+      e i     t
+     /|  \     \
+    a l   d      o
+   /   \          \
+  r     l          c
+ /       \          \
+(end)     l          k
+          |           \
+         (end)        (end)
+
+patricia树 (就是做了路径压缩)
+          (root)
+         /      \
+      "b"       "s"
+      / \         \
+   "ear" "ull"   "ell"
+     |       \       \
+  (end)      "y"    "tock"
+              |        \
+             (end)     "op"
+                        (end)
+</code></pre>
+<h2>12.4 最佳BST树</h2>
+一个 $n$ 个关键码的集合, 关键码可以有 $n!$ 种不同的排列法, 但是对应的二叉搜索树只有 $C_{2n}^n/(n+1)$ 种不同的形态.
+
+<strong>效率度量</strong>
+<li>先扩充二叉搜索树, 添加外部空节点, 为检索失败的情形提供一个关键码区间</li>
+<li>成功检索 : 关键码层数加1 (根是第0层)</li>
+<li>失败检索 : 被检索关键码所属的外部空节点层数</li>
+$$ASL=\frac{\sum_{i=1}^n p_i(l_i+1)+\sum_{i=0}^nq_il_i'}{\sum_{i=1}^n p_i+\sum_{i=0}^nq_i}$$
+<li>$p_i$ : 成功检索第 $i$ 个内部节点的概率 (总共 $n$ 个)</li>
+<li>$q_i$ : 失败检索第 $i$ 个外部节点的概率 (总共 $n+1$ 个)</li>
+<li>$l_i$ : 第 $i$ 个内部节点的层数</li>
+<li>$l_i'$ : 第 $i$ 个外部节点的层数</li>
+
+<strong>最佳BST</strong> : 使得平均检索长度最小的二叉搜索树, 这取决于关键码的概率分布
+<li>关键码概率分布均匀时 ($p_i=q_i=\frac{1}{2n+1}$), 等价于最小化内部路径长度和, 最佳BST是一棵完全二叉树</li>
+<li>关键码概率分布不均匀时, 其任何子树都是最佳BST</li>
+  - <strong>动态规划</strong> : 从底向上, 逐层计算最佳二叉搜索树的平均检索长度
+
+<h2>12.5 AVL树</h2>
+
+<strong>AVL树的性质</strong>
+<li>空树是AVL树</li>
+<li>左右子树都是AVL树, 且左右子树的高度差的绝对值不超过1</li>
+<li>$n$ 个结点的AVL树的高度不超过 $O(\log n)$</li>
+
+> $bf(x)$ : 节点 $x$ 的平衡因子, 即右子树高度减去左子树高度, 取值范围 $\{-1,0,1\}$
+>
+> AVL 树的 $ASL$ 为 $O(\log n)$
+
+<strong>AVL树的插入</strong>
+<li>与BST类似, 执行失败的查找, 确定插入位置插入新结点</li>
+<li>若插入后不破坏平衡性, 则逐层调整平衡因子</li>
+<li>若插入后破坏平衡性, 则进行旋转操作, 从新加入的结点 $u$ 向根方向往上搜索, 直到找到距离 $u$ 最近的不平衡祖先结点 $A$ (平衡因子为2或者-2) 定位路径 $A\to B\to C\to \dots \to u$.</li>
+  - <strong>LL型</strong> : $A\overset{left}{\to} B\overset{left}{\to} C$, 右旋一次, 让 $B$ 取代 $A$ 成为新的子树根即可
+  - <strong>RR型</strong> : $A\overset{right}{\to} B\overset{right}{\to} C$, 左旋一次, 让 $B$ 取代 $A$ 成为新的子树根即可
+  - <strong>LR型</strong> : $A\overset{left}{\to} B\overset{right}{\to} C$, 先对 $B$ 左旋, $C$ 取代 $B$, 再对 $A$ 右旋, $C$ 取代 $A$ 成为新的子树根
+  - <strong>RL型</strong> : $A\overset{right}{\to} B\overset{left}{\to} C$, 先对 $B$ 右旋, $C$ 取代 $B$, 再对 $A$ 左旋, $C$ 取代 $A$ 成为新的子树根
+
+<strong>AVL树的删除</strong>
+<li>与BST类似, 执行失败的查找, 确定删除位置, 与后继交换再删除</li>
+<li>删除会导致树高及平衡因子变化, 需要沿着被删除结点到根结点的路径来调整这种变化. 但删除比插入复杂, 可能需要在相应的路径上的不止一次实施单旋或双旋</li>
+
+> AVL树的插入和删除操作的时间复杂度为 $O(\log n)$
+
+<strong>AVL树的扩展</strong>
+允许树的高度差 $\Delta$ 超过1, 但是仍然保持平衡性, 最差情况下高度随 $\Delta$ 增长, 与单纯的AVL树 ($\Delta = 1$) 相比, 平均访问节点数目增加了, 但重组的数目降低了
+
+<h2>12.6 伸展树</h2>
+
+<strong>展开(splaying)</strong> : 访问一次节点 $x$, 完成一次展开过程
+<li>插入检索 $x$ 时, 把 $x$ 旋转到根节点</li>
+<li>删除检索 $x$ 时, 把 $x$ 的父节点旋转到根节点</li>
+<li>当 $x$ 是根节点的子节点时, 用单旋转 (和AVL树的旋转相同)</li>
+<li>否则递归地进行双旋转</li>
+  - <strong>一字型旋转</strong>, 也称为同构调整, 适用于 $x$ 是祖父节点的左左孙子节点或右右孙子节点, 相当于两次单旋转
+  - <strong>之字型旋转</strong>, 也称为异构调整, 适用于 $x$ 是祖父节点的左右孙子节点或右左孙子节点, 和AVL树的双旋转相同
+
+<strong>基于伸展树的区间操作</strong>
+<li>区间提取 : 给定数列 $\{n_i\}_m$, 提取区间 $[n_a,n_b]$ 的子序列</li>
+  - 将 $n_a$ 旋转到根节点
+  - 将 $n_b$ 旋转到根节点的右子节点
+  - 提取树根右子树的左子树即为所求子序列
+<li>区间删除 : 删除区间 $[n_a,n_b]$ 的子序列</li>
+  - 同区间提取
+  - 删除树根右子树的左子树
+<li>区间插入 : 插入区间 $[n_a,n_b]$ 的子序列</li>
+  - 将 $n_a$ 旋转到根节点
+  - 将 $n_{a+1}$ 旋转到根节点的右子节点
+  - 将待插入子序列构建成伸展树, 插入成为树根右子树的左子树
+<li>区间翻转 : 翻转区间 $[n_a,n_b]$ 的子序列</li>
+  - 同区间提取
+  - 对树根右子树的左子树进行翻转 (交换每个节点的左右儿子)
+
+<strong>半伸展树(Semi-Splay)</strong> : 每次伸展只对祖父节点进行一次旋转, 父节点取代祖父节点成为新的子树根, 然后当前节点由 $x$ 变为 $x$ 的父节点 (此时的子树根)
+  - 半伸展不需要把 $x$ 旋转到根节点, 如 $x$ 的原层数是 $d$, 则伸展后的层数是 $d/2$
+  - 如果记录信息存储在外部结点, 内部结点只作为索引结构, 则检索到某个外部结点时, 其内部父结点设为当前结点
+
+<strong>后缀树(Suffix Trie)</strong> : 类似前缀树, 但每个从根到叶子的路径都对应字符串的一个后缀, 用于字符串匹配, 模式匹配, 模式搜索等. 
+  - 为区分后缀子串, 在每个叶子节点后添加一个特殊字符$
+  - 很容易查找 $P$ 是否是 $T$ 的子串 (依次检索)
+  - 查找 $P$ 出现次数 : 沿着 $P$ 的路径走到叶子节点, 计算出现次数 $k$, 复杂度 $O(|P|+k)$
+  - 找到T中最长重复子串 : 找到最深的分叉节点, 从根到该节点的路径即为最长重复子串 (子串可能相交)
+
+> 后缀树似乎不考
+
+<h3>几种平衡机制的比较</h3>
+<li><strong>AVL树</strong> : 完全平衡, 与访问频率无关, 只与插入, 删除顺序有关</li>
+<li><strong>伸展树</strong> : 与操作频率相关, 根据插入、删除、检索等动态调整</li>
+<li><strong>红黑树</strong> : 局部平衡, 统计性能好于 AVL树, 增删记录算法性能好</li>
+
+> <strong>单旋</strong> : AVL树插入-LL,RR型旋转, 伸展树splay-第一层节点, 红黑树插入-叔节点为黑-LL,RR型
+> <strong>两次同向单旋</strong> : 伸展树splay-一字型旋转
+> <strong>双旋(两次异向单旋)</strong> : AVL树插入-LR,RL型旋转, 伸展树splay-之字型旋转, 红黑树插入-叔节点为黑-LR,RL型
+>
+> 无论是哪种二叉树结构, LR型和RL型旋转后都是<strong>孙子节点</strong>成为新子树根
+> 而LL 型和 RR型就未必了, 除了伸展树的splay是<strong>孙子取代祖父<em>*, 其他都是*</em>父亲取代祖父</strong></p>
+</body>
+</html>

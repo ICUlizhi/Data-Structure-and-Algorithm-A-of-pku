@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>import brain as algorithm</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+        }
+        blockquote {
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+            margin: 16px 0;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        table th, table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            box-sizing: content-box;
+        }
+        ul {
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.25em 0;
+        }
+    </style>
+</head>
+<body>
+    <p>堆栈 : 
+字符串 : KMP算法
+二叉树 : 
+树 : 
+图 : dijkstra算法, floyd算法, Kruskal算法
+排序 : 归并
+检索 : 
+
+<li>所有的算法只包含尽可能简化的模版, 不记录数据, 但会做预处理</li>
+
+1. KMP算法
+<pre><code>cpp
+//s[1] 对齐第一个字符, s[n] 是最后一个字符, next[i]是第i个字符的前缀后缀最长匹配长度
+next[1] = 0; 
+for (int i=2,j=0;i<=n;i++){
+    while (j && s[i]!=s[j+1]) j = next[j]; // 一直往前找, 直到找到一个匹配的或者j=0
+    if (s[i]==s[j+1])j++; // 找到了一个匹配的
+    next[i] = j; // 保存匹配长度
+}
+</code></pre>
+
+2. dijkstra算法 (用堆实现)
+<pre><code>cpp
+int w[maxn][maxn]; //已memset(w, 0x3f, sizeof(w)),且连边的数据已加载
+int dis[maxn],vis[maxn]; // dis最短距离, vis是否访问
+int n; // 顶点数, 从1开始
+
+void dijkstra(int s){
+	priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q; // first 是距离，second 是点的编号
+	memset(dis,0x3f,sizeof(dis));
+	dis [s] = 0;
+	q.push({0,s});// 起点
+	while(!q.empty()){
+		int u = q.top().second;// 取出最小距离的点
+		q.pop();
+		if (vis[u])continue;
+		vis[u] = 1;// 标记已访问
+		for (int i=1;i<=n;i++){
+			int w0 = min(w[i][u],w[u][i]); 
+			dis[i] = min(dis[i],dis[u]+w0);// 更新距离
+			q.push({dis[i],i});// 加入队列
+		}
+	}
+}
+</code></pre>
+
+3. floyd算法
+<pre><code>cpp
+void floyd(){// g是邻接矩阵, 已经memset(g, 0x3f, sizeof(g))过且已经加载了边的数据
+	for(int i=1;i<=n;i++) g[i][i]=0;
+	for(int k=1;k<=n;k++){
+		for(int i=1;i<=n;i++){
+			for(int j=1;j<=n;j++){
+				g[i][j] = min(g[i][j],g[i][k]+g[k][j]);
+				g[j][i] = g[i][j]; //无向图同步更新
+			}
+		}
+	}
+}
+</code></pre>
+
+
+4. Kruskal算法
+<pre><code>cpp
+struct Edge {
+    int u, v, w;  // u, v: 两个节点，w: 边的权重
+};
+vector<Edge> E, Etree;  // 存储所有的边
+int fa[114514];  // 用于并查集的父节点数组
+int find(int x) { // 查找函数，路径压缩优化
+    return x == fa[x] ? x : fa[x] = find(fa[x]);
+}
+void Kruskal(){
+    for (int i = 1; i <= n; i++) {  // 初始化并查集
+        fa[i] = i;
+    }
+    sort(E.begin(), E.end(), [](Edge a, Edge b) { 
+        return a.w < b.w;
+    });// 按照边的权重升序排序
+    for (Edge e : E) {
+        int u = find(e.u), v = find(e.v);  // 查找 u, v 的
+        if (u != v) {
+			fa[u] = v;  // 合并 u, v
+			Etree.push_back(e);  // 将边加入最小生成树
+		}
+    }
+}
+</code></pre>
+
+5. 归并排序
+<pre><code>cpp
+void merge_sort(int l, int r){
+    if (l == r) return; // 递归边界
+    int mid = (l + r) >> 1; // 取中点
+    merge_sort(l, mid); // 递归排序左半部分
+    merge_sort(mid + 1, r); // 递归排序右半部分
+    int i = l, j = mid + 1, k = 0; // i, j 分别指向左右两部分的起点, k 用于合并
+    while (i <= mid && j <= r) { // 合并两部分
+        if (a[i] <= a[j]) b[k++] = a[i++];
+        else b[k++] = a[j++];
+    }
+    while (i <= mid) b[k++] = a[i++]; // 处理剩余部分
+    while (j <= r) b[k++] = a[j++];
+    for (int i = l; i <= r; i++) a[i] = b[i - l]; // 将合并后的数组复制回原数组
+}
+</code></pre>
+
+6. 二分法
+<pre><code>cpp
+bool check(int x) {}// 判断 x 是否满足条件
+int binarySearch(int left, int right) {
+	if (check(right)) return right; // 如果 right 满足条件，直接返回 (因为处理不了)
+    while (left < right) {
+        int mid = left + (right - left) / 2; // 防溢出
+        if (check(mid)) left = mid + 1; 
+        else right = mid;    
+    }
+    return left - 1; // 返回符合条件的最大值
+}
+</code></pre>
+
+Trick1:
+<pre><code>cpp
+ios::sync_with_stdio(false); // 关闭输入输出流的同步，加快cincout速度
+</code></pre></p>
+</body>
+</html>

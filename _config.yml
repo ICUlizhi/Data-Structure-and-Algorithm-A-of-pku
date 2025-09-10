@@ -1,0 +1,64 @@
+# Site settings
+title: "数据结构与算法 A - PKU"
+description: "北京大学数据结构与算法A课程资料库"
+baseurl: ""
+url: "https://ICUlizhi.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# GitHub Pages configuration
+repository: ICUlizhi/Data-Structure-and-Algorithm-A-of-pku
+github_username: ICUlizhi
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Markdown settings
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Collections
+collections:
+  notes:
+    output: true
+    permalink: /:collection/:name/
+
+# Include
+include:
+  - "notes-上机"
+  - "notes-理论-期中前" 
+  - "notes-理论-期中后"
+
+# Exclude
+exclude:
+  - "*.pdf"
+  - "docs/"
+  - ".github/"
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "node_modules"
+  - "vendor/bundle/"
+  - "vendor/cache/"
+  - "vendor/gems/"
+  - "vendor/ruby/"
+
+# Navigation
+navigation:
+  - title: "首页"
+    url: "/"
+  - title: "项目介绍"
+    url: "/README.html"
+  - title: "上机笔记"
+    url: "/notes-上机/"
+  - title: "理论笔记"
+    url: "/notes-理论-期中前/"

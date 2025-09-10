@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9-文件与外排序</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+        }
+        blockquote {
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+            margin: 16px 0;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        table th, table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            box-sizing: content-box;
+        }
+        ul {
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.25em 0;
+        }
+    </style>
+</head>
+<body>
+    <p>---
+id: notes
+---
+@import "/.crossnote/notes.less";
+
+
+<h1>9 文件与外排序</h1>
+
+官方复习大纲中只有置换选择排序和多路归并两个板块, 因此笔记只记这些. 内外存和磁盘相关知识请移步 ics.
+
+<h2>9.1 置换选择排序</h2>
+<strong>思路</strong>
+<li>首先传入 $m$ 个元素进内存建堆, 设置堆尾标志 $last = m-1$, 然后只要 $last\ge 0$:</li>
+  - 堆的根节点传送到输出缓冲区, 记为 $mval$
+  - 从输入缓冲区读入一个数 $r$ :
+    - 若 $r\ge mval$, 则把 $r$ 放到根节点
+    - 否则 $last$ 位置的元素放到根节点, $last-=1$, 
+  - 刷新堆以获得新的 $mval$
+<li>算法结束后, 内存中也填满了未能处理的元素, 直接建堆等待下一顺串处理</li>
+
+<strong>分析</strong>
+<li>输出的一个顺串最小长度是 $m$, 最优长度为整个文件(正序输入), 平均情况为 $2m$</li>
+
+<div class="question-box">
+    <span class="title">(2021 秋)</span>
+    <p>设依次输入降序关键码序列 <b>k1 > k2 > … > kn</b>, 缓冲区大小为 <b>m</b>. 在 <b>n=250</b>, <b>m=25</b> 的情况下,用最小值堆进行置换-选择排序, 可产生初始归并段的个数为 _______; 如果 <b>k1 < k2 < … < kn</b>, 用最小值堆进行置换-选择排序, 可产生初始归并段的个数为 ________.</p>
+</div>
+
+<strong>解析:</strong> 口诀 : 小升大降 (这两种情况last不前移, 也就是归并段延长), 内存 $m$ 保证了最小长度.
+<strong>答案:</strong> 10, 1
+___
+
+<h2>9.2 多路归并 </h2>
+<li>对于每趟需要归并的 $k$ 个顺串, 每步就是 $k$ 个指针扫描, 直到全部 $n$ 个顺串合并完成. </li>
+<li>合并趟数 : $[\log_k m]$</li>
+<li>优化:</li>
+  - 创建尽可能大的初始顺串
+  - 把初始顺串长度作为权, 转化为Huffman树最优化问题, 得到一个 k叉Huffman 树, 称为<strong>最佳归并树</strong>
+> 进一步优化? 每次比较 $k-1$ 次开销还是太大了, 实际上一些比较可以保留
+
+<div class="question-box">
+    <span class="title">(2016 秋)</span>
+    <p>设有 <b>8</b> 个初始归并段, 其长度分别为 <b>32, 46, 56, 64, 20, 87, 70, 40</b>；进行 <b>3</b> 路归并排序, 所构造的最佳归并树对应的总读写次数为____?</p> <br/>
+</div>
+    
+<strong>解析:</strong> 构造 Huffman 树, 由于 $8-1\equiv 1\,(\text{mod } 3)$, 额外补一个空叶子, 也就是第一次归并只有 $20$ 和 $32$. 得到的内部节点值之和是 $52 + 138 + 190 + 415 = 795$. 由于是问总读写次数, 需要乘以 $2$
+<strong>答案:</strong> 1590
+___
+
+<h3>赢者树</h3>
+<li>完全二叉树结构, 每个叶子节点表示待归并顺串上的当前元素, 每个内部节点储存胜者 (最小值) 所在顺串的序号. </li>
+<li>更新时只需输出对应叶子节点元素, 写入新元素后调整从叶子节点到根节点的路径, 时间复杂度为 $O(\log k)$. </li>
+<h3>败者树</h3>
+<li>胜者树的优化, 没有本质区别, 但在每个节点保留败者所在顺串的序号, 以及增加一个根节点储存最终胜者</li>
+<li>也即优化了重构过程, 直接找父节点即可, 无需再与兄弟节点比较 (降低复杂度的常数)</li>
+<h3>时间复杂度</h3>
+<li>原始方法 : $O(nk)$</li>
+<li>败者树方法 : $O(k+n\log k)$</li>
+> 为什么不用堆?
+> 堆的每层调整都要对三个值 (父节点、两个子节点) 进行至少两次比较, 使用胜者败者树少一次比较, 败者树相对胜者树更少一次寻址</p>
+</body>
+</html>

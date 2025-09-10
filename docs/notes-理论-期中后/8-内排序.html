@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-内排序</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+        }
+        blockquote {
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+            margin: 16px 0;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        table th, table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            box-sizing: content-box;
+        }
+        ul {
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.25em 0;
+        }
+    </style>
+</head>
+<body>
+    <p>---
+id: notes
+---
+@import "/.crossnote/notes.less";
+
+<h1>8 内排序</h1>
+<li>内排序 : 整个排序过程在内存中完成</li>
+<li>稳定性 : 存在多个具有相同排序码的记录, 排序后这些记录的相对次序保持不变</li>
+
+<h2>算法一览</h2>
+
+<img src="../image/内排序算法.png">
+
+> 口诀 : 两直shell堆, 快贸基桶归. (两个直男shel1堆, 快买肯德基的全家桶回来) (注意该口诀基本是按上表从上到下排序的)
+> - 看稳定 
+>   - 不稳定 : 快选shell堆
+> - 看时间
+>   - 平均$nlogn$ : 快归堆 (后两个最坏也$nlogn$)
+>   - 最优$n$,最坏平均都是$n^2$ : 插冒桶
+>   - 基本都是$n^2$ : 选shell
+> - 看空间  
+>   - 快是时间复杂度的 $1/n$, 基桶归都接近 $n$
+<li>索引排序</li>
+<li>对时间复杂度的理解</li>
+  - 序列平均有 $\frac{1}{2}\binom{n}{2}$ 对逆序
+    - 任何一种只对相邻记录进行比较的排序算法的平均时间代价都是 $\Theta(n^2)$
+  - $n$ 很小或基本有序时插入排序比较有效 
+  - Shell 排序选择增量以3的倍数递减
+    - 需要保证最后一趟增量为1
+  - 综合性能快速排序最佳
+  - 排序问题的时间复杂度下限, 也即判定树的最小深度: $\Omega(\log n!)=\Omega (n\log n)$
+
+
+<div class="question-box">
+    <span class="title">(2016 秋)</span>
+    <p>在快速排序中, 定义一次平分的划分为 "幸运的划分", 而一次划分如果有一边为空则是"不幸的划分". 假设划分的过程总是"幸运"和"不幸"交替的, 则该快速排序的时间复杂性为 ____?</p> <br/>
+</div>
+    
+<strong>解析:</strong> 不幸的效果不计, 幸运的划分时间复杂度为 $O(n)$, 一共有 $2\log n$ 次划分. 相当于复杂度的常数损失了一半.
+<strong>答案:</strong> 还是 $O(n\log n)$
+
+<div class="question-box">
+    <span class="title">(2016 秋)</span>
+    <p>如果要找出一个具有 <b>n</b> 个元素集合中的第 <b>k</b> (<b>1≤k≤n</b>) 个最小元素,所学过的排序方法中哪种最适合? 给出实现的基本思想.</p>
+</div>
+
+<strong>答案:</strong> 快速排序, 因为可以在 $O(n)$ 内确定 pivot 的位置, 从而二分逼近第 k 小元素.
+
+<div class="question-box">
+    <span class="title">(2021 秋)</span>
+    <p>设 <b>n=10000</b> 个整数, 要求使用基于比较的方法, 找到最大的前 <b>k=10</b> 个数, 并且对这 <b>k</b> 个数进行排序, 其他数的顺序不作要求. 请给出在以下场景中所需的最大比较次数, 并给出计算依据.</p><br/>
+    <p><b>(1)</b> 对 <b>n</b> 个数进行排序, 排序过程中若发现已经得到了排好序的最大的前 <b>k</b> 个数, 则输出并终止算法. 这里使用某种能使该算法终止时所需比较次数最小的基于比较的非递归排序算法.</p> <br/>
+    <p><b>(2)</b> 对 <b>n</b> 个数建立最大堆, 调用 <b>k</b> 次 <b>pop_max()</b> 函数 (<b>pop_max()</b> 函数返回堆的最大元素,并将该元素从最大堆中删除. 注: 本题写出表达式即可.</p>
+</div>
+
+<strong>解析:</strong>
+<li>(1) 冒泡排序或选择排序, 每次需要 $n-i$ 次比较. 也即$10000\times 10=100000$ 次</li>
+<li>(2) 建堆 $2n$, 每次 pop_max() 需要 $2\log n$, 总共 $2(n+k\log n)$, 也即 $2(10000+10\log 10000)=20280$ 次</li>
+> 这是标答, 我们发现分析比较次数时, 不用 $O$ 记号意味着关注常数系数, 但仍然不关注小量.
+> 建堆的比较次数理论上应该是 $4n$, 这一结果我们在学习的时候证明了 (请看作业题), 考试要是再考就是没有浮木.
+> 数算的争议全在这些常数项, 学学人家算分多好.
+___</p>
+</body>
+</html>
