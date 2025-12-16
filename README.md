@@ -10,6 +10,7 @@
 </p>
 
 ## Latest News 🔥
+- [25/12] Elainafan发布了不同代码风格的[近3年题解](https://github.com/elainafan/Data-Structures-and-Algorithms-A-2025Fall-PKU/tree/main/%E5%BE%80%E5%B9%B4%E9%A2%98)
 - [25/09] 我将于25秋担任数算A王乐业老师班的助教，期间将继续维护本仓库，当然更欢迎本学期选课的同学加入contribution ! 
   - 笔记仓库无复杂pr规则必要, 适合git上手
   - PS：也欢迎加入pkuhub平台开发，我的联系方式见[iculizhi.github.io](iculizhi.github.io), 我们使用Rust和React
